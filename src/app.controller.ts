@@ -9,8 +9,8 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-  @Get('/check1')
+  @Get('/check-ci-cd')
   getHello1(): string {
-    return 'lolo';
+    return 'works';
   }
 }

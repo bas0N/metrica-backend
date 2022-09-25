@@ -9,7 +9,6 @@ provider:
   name: aws
   runtime: nodejs16.x
   environment:
-    DB_URL: ${env:DB_URL}
 
 functions:
   main:

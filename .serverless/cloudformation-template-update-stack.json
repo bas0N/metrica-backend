@@ -161,18 +161,13 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/stack-metrics-backend/production/1664136356079-2022-09-25T20:05:56.079Z/stack-metrics-backend.zip"
+          "S3Key": "serverless/stack-metrics-backend/production/1664141507829-2022-09-25T21:31:47.829Z/stack-metrics-backend.zip"
         },
         "Handler": "dist/serverless.handler",
         "Runtime": "nodejs16.x",
         "FunctionName": "stack-metrics-backend-production-main",
         "MemorySize": 1024,
         "Timeout": 6,
-        "Environment": {
-          "Variables": {
-            "DB_URL": "dsadasdasd"
-          }
-        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -184,14 +179,14 @@
         "MainLogGroup"
       ]
     },
-    "MainLambdaVersion6LD9ZhcgAFXwre2n4yXatquhMvHbjJDZV2Bqs7I": {
+    "MainLambdaVersiondRjqHotdOIeL8gfZexijKEuUrFxBgVNOjPwdDGZEpuA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MainLambdaFunction"
         },
-        "CodeSha256": "/bAXT8CVrMnxJUo0+ntTeqpBWOfqzsYlzrxFn2GHYyM="
+        "CodeSha256": "A+KDqB6YwPSgfqrHwt/7mb5B2Ldtb4E+k4VBORDbEQU="
       }
     },
     "ApiGatewayRestApi": {
@@ -316,7 +311,7 @@
         "MainLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1664136348291": {
+    "ApiGatewayDeployment1664141500216": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -379,7 +374,7 @@
     "MainLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MainLambdaVersion6LD9ZhcgAFXwre2n4yXatquhMvHbjJDZV2Bqs7I"
+        "Ref": "MainLambdaVersiondRjqHotdOIeL8gfZexijKEuUrFxBgVNOjPwdDGZEpuA"
       },
       "Export": {
         "Name": "sls-stack-metrics-backend-production-MainLambdaFunctionQualifiedArn"

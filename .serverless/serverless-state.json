@@ -7,10 +7,39 @@
     "provider": {
       "name": "aws",
       "runtime": "nodejs16.x",
+      "apiGateway": {
+        "shouldStartNameWithService": true
+      },
+      "memorySize": 256,
       "stage": "dev",
       "region": "eu-central-1",
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:PutItem",
+            "dynamodb:Scan",
+            "dynamodb:GetItem",
+            "dynamodb:UpdateItem",
+            "dynamodb:Query"
+          ],
+          "Resource": [
+            {
+              "Fn::GetAtt": [
+                "UsersTable",
+                "Arn"
+              ]
+            }
+          ]
+        }
+      ],
+      "environment": {
+        "JWT_SECRET": "eloelo320",
+        "USERS_TABLE_NAME": {
+          "Ref": "UsersTable"
+        }
+      },
       "versionFunctions": true,
-      "environment": null,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
@@ -87,7 +116,7 @@
           "MainLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/stack-metrics-backend-production-main"
+              "LogGroupName": "/aws/lambda/stack-metrics-backend-dev-main"
             }
           },
           "IamRoleLambdaExecution": {
@@ -116,7 +145,7 @@
                       "-",
                       [
                         "stack-metrics-backend",
-                        "production",
+                        "dev",
                         "lambda"
                       ]
                     ]
@@ -132,7 +161,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/stack-metrics-backend-production*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/stack-metrics-backend-dev*:*"
                           }
                         ]
                       },
@@ -143,9 +172,12 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/stack-metrics-backend-production*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/stack-metrics-backend-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
                       }
                     ]
                   }
@@ -157,7 +189,7 @@
                   "-",
                   [
                     "stack-metrics-backend",
-                    "production",
+                    "dev",
                     {
                       "Ref": "AWS::Region"
                     },
@@ -174,13 +206,21 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/stack-metrics-backend/production/1664141507829-2022-09-25T21:31:47.829Z/stack-metrics-backend.zip"
+                "S3Key": "serverless/stack-metrics-backend/dev/1664233685851-2022-09-26T23:08:05.851Z/main.zip"
               },
               "Handler": "dist/serverless.handler",
               "Runtime": "nodejs16.x",
-              "FunctionName": "stack-metrics-backend-production-main",
-              "MemorySize": 1024,
+              "FunctionName": "stack-metrics-backend-dev-main",
+              "MemorySize": 256,
               "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "JWT_SECRET": "eloelo320",
+                  "USERS_TABLE_NAME": {
+                    "$ref": "$[\"service\"][\"provider\"][\"environment\"][\"USERS_TABLE_NAME\"]"
+                  }
+                }
+              },
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -192,20 +232,20 @@
               "MainLogGroup"
             ]
           },
-          "MainLambdaVersiondRjqHotdOIeL8gfZexijKEuUrFxBgVNOjPwdDGZEpuA": {
+          "MainLambdaVersionNPVszE938EJpEq6xHJwIqe2s95zGyc8cCVSzMesjw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MainLambdaFunction"
               },
-              "CodeSha256": "A+KDqB6YwPSgfqrHwt/7mb5B2Ldtb4E+k4VBORDbEQU="
+              "CodeSha256": "FrI/MfC+bRi3xc4bo702r95Sds9FK3N6reutv0OzahI="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "production-stack-metrics-backend",
+              "Name": "stack-metrics-backend-dev",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -324,13 +364,13 @@
               "MainLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1664141500216": {
+          "ApiGatewayDeployment1664233674830": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               },
-              "StageName": "production"
+              "StageName": "dev"
             },
             "DependsOn": [
               "ApiGatewayMethodAny",
@@ -373,6 +413,25 @@
                 ]
               }
             }
+          },
+          "UsersTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "UsersTable-dev",
+              "BillingMode": "PAY_PER_REQUEST",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ]
+            }
           }
         },
         "Outputs": {
@@ -381,16 +440,16 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-stack-metrics-backend-production-ServerlessDeploymentBucketName"
+              "Name": "sls-stack-metrics-backend-dev-ServerlessDeploymentBucketName"
             }
           },
           "MainLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MainLambdaVersiondRjqHotdOIeL8gfZexijKEuUrFxBgVNOjPwdDGZEpuA"
+              "Ref": "MainLambdaVersionNPVszE938EJpEq6xHJwIqe2s95zGyc8cCVSzMesjw"
             },
             "Export": {
-              "Name": "sls-stack-metrics-backend-production-MainLambdaFunctionQualifiedArn"
+              "Name": "sls-stack-metrics-backend-dev-MainLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -411,12 +470,12 @@
                   {
                     "Ref": "AWS::URLSuffix"
                   },
-                  "/production"
+                  "/dev"
                 ]
               ]
             },
             "Export": {
-              "Name": "sls-stack-metrics-backend-production-ServiceEndpoint"
+              "Name": "sls-stack-metrics-backend-dev-ServiceEndpoint"
             }
           }
         }
@@ -505,8 +564,23 @@
       },
       "vpc": {}
     },
+    "custom": {
+      "UsersTable": {
+        "name": {
+          "Ref": "UsersTable"
+        },
+        "arn": {
+          "Fn::GetAtt": [
+            "UsersTable",
+            "Arn"
+          ]
+        }
+      }
+    },
     "plugins": [
-      "serverless-offline"
+      "serverless-plugin-optimize",
+      "serverless-offline",
+      "serverless-dynamodb-local"
     ],
     "pluginsData": {},
     "functions": {
@@ -528,14 +602,40 @@
             }
           }
         ],
-        "name": "stack-metrics-backend-production-main",
-        "package": {},
-        "memory": 1024,
+        "name": "stack-metrics-backend-dev-main",
+        "package": {
+          "artifact": "/Users/wojciechbasinski/Desktop/dev_prod/stack_metrics_serverless/.serverless/main.zip"
+        },
+        "memory": 256,
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "MainLambdaVersiondRjqHotdOIeL8gfZexijKEuUrFxBgVNOjPwdDGZEpuA"
+        "versionLogicalId": "MainLambdaVersionNPVszE938EJpEq6xHJwIqe2s95zGyc8cCVSzMesjw"
       }
+    },
+    "resources": {
+      "Resources": {
+        "UsersTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "UsersTable-dev",
+            "BillingMode": "PAY_PER_REQUEST",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ]
+          }
+        }
+      },
+      "Outputs": {}
     },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yaml",
@@ -550,14 +650,25 @@
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "package": {
+        "individually": true,
+        "artifactsS3KeyDirname": "serverless/stack-metrics-backend/dev/code-artifacts",
+        "artifactDirectoryName": "serverless/stack-metrics-backend/dev/1664233685851-2022-09-26T23:08:05.851Z"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      },
+      "custom": {
+        "$ref": "$[\"service\"][\"custom\"]"
       }
     },
     "layers": {},
-    "isDashboardMonitoringPreconfigured": false,
-    "artifact": "/Users/wojciechbasinski/Desktop/dev_prod/stack_metrics_serverless/.serverless/stack-metrics-backend.zip"
+    "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/stack-metrics-backend/production/1664141507829-2022-09-25T21:31:47.829Z",
-    "artifact": "stack-metrics-backend.zip"
+    "individually": true,
+    "artifactDirectoryName": "serverless/stack-metrics-backend/dev/1664233685851-2022-09-26T23:08:05.851Z",
+    "artifact": ""
   }
 }

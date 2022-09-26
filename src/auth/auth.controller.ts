@@ -25,4 +25,9 @@ export class AuthController {
     console.log('esa');
     return this.authService.register(req.body);
   }
+  @Get('/dynamo-check')
+  async dynamoCheck() {
+    // return this.authService.dynamoCheck();
+    return 'dynamo check';
+  }
 }

@@ -10,15 +10,13 @@ import { UsersService } from 'src/users/users.service';
 import { UsersRepository } from 'src/db/repositories/users.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/db/schemas/user.schema';
+import { jwtConfig } from 'src/config/jwt.config';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
     UsersModule,
-    JwtModule.register({
-      secret: `${process.env.JWT_SECRET}`,
-      signOptions: { expiresIn: '1h' },
-    }),
+    JwtModule.registerAsync(jwtConfig),
   ],
   providers: [
     LocalStrategy,

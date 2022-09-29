@@ -9,7 +9,7 @@ import { AuthService } from './auth/auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     MongooseModule.forRoot(`${process.env.MONGO_DB_CONNECTION_STRING}`),
   ],

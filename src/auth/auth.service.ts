@@ -7,6 +7,7 @@ import { UsersRepository } from '../db/repositories/users.repository';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/db/schemas/user.schema';
 import { AddUserDto } from 'src/users/dto/AddUser.dto';
+import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -24,9 +25,13 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any): Promise<any> {
-    const payload = { email: user.email, id: user.userId };
-    return { access_token: this.jwtService.sign(payload) };
+  async login(user: LoginDto): Promise<any> {
+    const payload = { email: user.email };
+    console.log('secret', process.env.JWT_SECRET);
+    const access_token = this.jwtService.sign(payload);
+    console.log('access token', access_token);
+    console.log('payload', JSON.stringify(payload));
+    return { access_token };
   }
   async register({ email, password }: AddUserDto): Promise<User> {
     const salt = bcryptjs.genSaltSync(10);

@@ -17,7 +17,7 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findUser(email);
-    if (user && user.password === pass) {
+    if (user && bcryptjs.compareSync(pass, user.password)) {
       const { password, ...result } = user;
       return result;
     }
@@ -29,9 +29,11 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
   async register({ email, password }: AddUserDto): Promise<User> {
+    const salt = bcryptjs.genSaltSync(10);
+    const hashedPassword: string = await bcryptjs.hashSync(password, salt);
     return await this.usersRepository.createUser({
       email,
-      password,
+      password: hashedPassword,
     });
   }
   async dynamoCheck() {}

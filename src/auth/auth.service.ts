@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -36,10 +36,18 @@ export class AuthService {
   async register({ email, password }: AddUserDto): Promise<User> {
     const salt = bcryptjs.genSaltSync(10);
     const hashedPassword: string = await bcryptjs.hashSync(password, salt);
-    return await this.usersRepository.createUser({
-      email,
-      password: hashedPassword,
-    });
+    const user = await this.usersRepository.findUser(email);
+    console.log('user:', JSON.stringify(user));
+    if (!user) {
+      return await this.usersRepository.createUser({
+        email,
+        password: hashedPassword,
+      });
+    } else {
+      throw new BadRequestException(
+        'User with the given email already exists.',
+      );
+    }
   }
   async dynamoCheck() {}
 }

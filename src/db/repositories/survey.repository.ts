@@ -4,11 +4,13 @@ import { Model } from 'mongoose';
 import { AddSurveyDto } from 'src/survey/dto/AddSurvey.dto';
 import { SurveyDocument } from '../schemas/survey.schema';
 import { Survey } from '../schemas/survey.schema';
+import { User, UserDocument } from '../schemas/user.schema';
 import { UsersRepository } from './users.repository';
 @Injectable()
 export class SurveyRepository {
   constructor(
     @InjectModel(Survey.name) private surveyModel: Model<SurveyDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
     private userRepository: UsersRepository,
   ) {}
 

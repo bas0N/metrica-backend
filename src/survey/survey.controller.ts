@@ -16,4 +16,10 @@ export class SurveyController {
   ) {
     return this.surveyService.createSurvey(email, addSurveyDto);
   }
+  //add user verifiaction
+  @UseGuards(AuthGuard('jwt'))
+  @Post('getSurveys')
+  getSurveys() {
+    return this.surveyService.getSurveys();
+  }
 }

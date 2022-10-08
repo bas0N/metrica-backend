@@ -29,6 +29,7 @@ export class SurveyRepository {
     const newSurvey = new this.surveyModel(survey);
     return newSurvey.save();
   }
+  async getSurveys() {}
 
   //   async createSurvey(survey: AddSurveyDto): Promise<Survey> {
   //     const newSurvey = new this.surveyModel(survey);

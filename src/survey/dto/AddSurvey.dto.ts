@@ -2,9 +2,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { SurveyStatus } from 'src/db/schemas/survey.schema';
 export class AddSurveyDto {
   @IsNotEmpty()
-  creatorEmail: string;
-  @IsNotEmpty()
-  recipentEmail: string;
+  recipientEmail: string;
   @IsNotEmpty()
   candidateFirstName: string;
   @IsNotEmpty()

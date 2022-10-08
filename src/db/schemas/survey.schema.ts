@@ -23,7 +23,7 @@ export class Survey {
   //recruitment proces relation
 
   @Prop()
-  email: string;
+  recipientEmail: string;
   @Prop()
   candidateFirstName: string;
   @Prop()

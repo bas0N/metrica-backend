@@ -1,6 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
+import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { SurveyService } from './survey.service';
 
 @Controller('survey')
@@ -9,7 +10,10 @@ export class SurveyController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('createSurvey')
-  createSurvey(@Body() { email }: { email: String }) {
-    return this.surveyService.createSurvey(email);
+  createSurvey(
+    @Body()
+    { email, addSurveyDto }: { email: String; addSurveyDto: AddSurveyDto },
+  ) {
+    return this.surveyService.createSurvey(email, addSurveyDto);
   }
 }

@@ -22,4 +22,11 @@ export class SurveyController {
   getSurveys() {
     return this.surveyService.getSurveys();
   }
+  //get survey details
+
+  //edit survey
+
+  //delete survey
+
+  //change state
 }

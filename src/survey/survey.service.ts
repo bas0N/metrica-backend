@@ -15,4 +15,8 @@ export class SurveyService {
     return survey;
   }
   async getSurveys() {}
+  async getSurveyDetails() {}
+  async editSurvey() {}
+  async deleteSurvey() {}
+  async changeSurveystate() {}
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
@@ -26,24 +26,24 @@ export class SurveyController {
   @UseGuards(AuthGuard('jwt'))
   @Get('getSurveyDetails')
   getSurveyDetails() {
-    return this.surveyService.getSurveys();
+    return this.surveyService.getSurveyDetails();
   }
   //edit survey
   @UseGuards(AuthGuard('jwt'))
   @Post('editSurvey')
   editSurvey() {
-    return this.surveyService.getSurveys();
+    return this.surveyService.editSurvey();
   }
   //delete survey
   @UseGuards(AuthGuard('jwt'))
-  @Post('deleteSurvey')
+  @Delete('deleteSurvey')
   deleteSurvey() {
-    return this.surveyService.getSurveys();
+    return this.surveyService.deleteSurvey();
   }
   //change state
   @UseGuards(AuthGuard('jwt'))
   @Post('changeSurveystate')
   changeSurveystate() {
-    return this.surveyService.getSurveys();
+    return this.surveyService.changeSurveystate();
   }
 }

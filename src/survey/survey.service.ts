@@ -14,7 +14,10 @@ export class SurveyService {
     );
     return survey;
   }
-  async getSurveys() {}
+  async getSurveys() {
+    const surveys = await this.surveyRepository.getSurveys();
+    return surveys;
+  }
   async getSurveyDetails() {}
   async editSurvey() {}
   async deleteSurvey() {}

@@ -36,8 +36,8 @@ export class SurveyController {
   }
   //get survey details
   @UseGuards(AuthGuard('jwt'))
-  @Get('/:documentId')
-  getSurveyDetails(@Param('documentId') id: string) {
+  @Get('/:surveyId')
+  getSurveyDetails(@Param('surveyId') id: string) {
     try {
       return this.surveyService.getSurveyDetails(id);
     } catch (err) {
@@ -52,9 +52,9 @@ export class SurveyController {
   }
   //delete survey
   @UseGuards(AuthGuard('jwt'))
-  @Delete('deleteSurvey')
-  deleteSurvey() {
-    return this.surveyService.deleteSurvey();
+  @Delete('/:surveyId')
+  deleteSurvey(@Param('surveyId') id: string) {
+    return this.surveyService.deleteSurvey(id);
   }
   //change state
   @UseGuards(AuthGuard('jwt'))

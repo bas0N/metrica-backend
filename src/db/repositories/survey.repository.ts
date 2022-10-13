@@ -53,6 +53,19 @@ export class SurveyRepository {
       return undefined;
     }
   }
+  async deleteSurvey(id: string): Promise<Survey | undefined> {
+    try {
+      const survey = await this.surveyModel.findByIdAndDelete(id);
+      if (!survey) {
+        return undefined;
+      }
+      console.log(survey);
+      return survey;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
 
   //   async createSurvey(survey: AddSurveyDto): Promise<Survey> {
   //     const newSurvey = new this.surveyModel(survey);

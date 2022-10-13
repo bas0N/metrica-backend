@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ResponseDto } from 'src/config/response.dto';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 
@@ -29,6 +30,15 @@ export class SurveyService {
     return survey;
   }
   async editSurvey() {}
-  async deleteSurvey() {}
+  async deleteSurvey(id: string) {
+    const survey = await this.surveyRepository.deleteSurvey(id);
+    if (!survey) {
+      throw new BadRequestException('Error occured while removing survey.');
+    }
+    const response: ResponseDto = {
+      message: 'Survey has been deleted succesfully',
+    };
+    return response;
+  }
   async changeSurveystate() {}
 }

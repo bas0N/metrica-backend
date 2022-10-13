@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 
@@ -16,9 +16,18 @@ export class SurveyService {
   }
   async getSurveys() {
     const surveys = await this.surveyRepository.getSurveys();
+    if (!surveys) {
+      throw new BadRequestException('Incorrect survey id.');
+    }
     return surveys;
   }
-  async getSurveyDetails() {}
+  async getSurveyDetails(id: string) {
+    const survey = await this.surveyRepository.getSurveyDetails(id);
+    if (!survey) {
+      throw new BadRequestException('Incorrect survey id.');
+    }
+    return survey;
+  }
   async editSurvey() {}
   async deleteSurvey() {}
   async changeSurveystate() {}

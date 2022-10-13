@@ -29,9 +29,29 @@ export class SurveyRepository {
     const newSurvey = new this.surveyModel(survey);
     return newSurvey.save();
   }
-  async getSurveys() {
-    const surveys = await this.surveyModel.find();
-    return surveys;
+  async getSurveyDetails(id: string): Promise<Survey | undefined> {
+    try {
+      const survey = await this.surveyModel.findById(id);
+      if (!survey) {
+        return undefined;
+      }
+      return survey;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
+  async getSurveys(): Promise<Survey[] | undefined> {
+    try {
+      const surveys = await this.surveyModel.find();
+      if (!surveys) {
+        return undefined;
+      }
+      return surveys;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
   }
 
   //   async createSurvey(survey: AddSurveyDto): Promise<Survey> {

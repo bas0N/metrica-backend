@@ -1,7 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/config/response.dto';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
+import { SurveyStatus } from 'src/db/schemas/survey.schema';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
+import { ChangeStateDto } from './dto/ChangeState.dto';
 
 @Injectable()
 export class SurveyService {
@@ -40,5 +42,20 @@ export class SurveyService {
     };
     return response;
   }
-  async changeSurveystate() {}
+  async changeSurveystate(changeStateDto: ChangeStateDto) {
+    if (SurveyStatus[changeStateDto.newStatus] === undefined) {
+      throw new BadRequestException('Incorrect state value.');
+    }
+    const survey = await this.surveyRepository.changeSurveystate(
+      changeStateDto,
+    );
+    console.log(survey);
+    if (!survey) {
+      throw new BadRequestException('Error occured while updating survey.');
+    }
+    const response: ResponseDto = {
+      message: 'Survey has been updated succesfully',
+    };
+    return response;
+  }
 }

@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
+import { ChangeStateDto } from './dto/ChangeState.dto';
 import { SurveyService } from './survey.service';
 
 @Controller('survey')
@@ -58,8 +60,8 @@ export class SurveyController {
   }
   //change state
   @UseGuards(AuthGuard('jwt'))
-  @Post('changeSurveystate')
-  changeSurveystate() {
-    return this.surveyService.changeSurveystate();
+  @Put('changeSurveyState')
+  changeSurveystate(@Body() changeStateDto: ChangeStateDto) {
+    return this.surveyService.changeSurveystate(changeStateDto);
   }
 }

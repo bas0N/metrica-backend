@@ -1,3 +1,52 @@
+
+# Stack Metrics (backend)
+
+A brief description of what this project does and who it's for
+
+
+## Authors
+
+- [@bas0N](https://www.github.com/octokatherine)
+
+
+## Tech Stack
+
+
+**Server:** Node, NestJs AWS 
+
+
+## API Reference
+
+#### Get all items
+
+```http
+  GET /survey/getSurveys
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+| `api_key` | `string` | **Required**. Your API key |
+
+#### Create survey
+
+```http
+  GET /api/items/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+#### add(num1, num2)
+
+Takes two numbers and returns the sum.
+
+
+## Acknowledgements
+
+ - [Readme generator](https://readme.so/editor)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

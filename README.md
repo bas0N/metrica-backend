@@ -15,6 +15,7 @@ A brief description of what this project does and who it's for
 **Server:** Node, NestJs AWS 
 
 
+
 ## API Reference
 
 #### Retrieve all surveys from the db
@@ -22,15 +23,14 @@ A brief description of what this project does and who it's for
 ```http
   GET /survey/getSurveys
 ```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
 | `Bearer token` | `string` | **Required**. Your api token. |
 
 #### Create survey
 
 ```http
-  POST /api/items/${id}
+  POST /survey/createSurvey
 ```
 
 | Body | Type     | Description                       |
@@ -42,11 +42,55 @@ A brief description of what this project does and who it's for
 | `status`      | `SurveyStatus` | **Required**. Initial status of the survey. |
 | `terminationDate`      | `Date` | **Required**. Date when the survey shoud terminate. |
 
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
 
 
-#### add(num1, num2)
+#### Get survey by id
 
-Takes two numbers and returns the sum.
+```http
+  GET /survey/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of the survey to fetch |
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+#### Delete survey
+
+```http
+  DELETE /survey/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+#### Change survey state
+
+```http
+  PUT /survey/changeSurveyState
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `newStatus`      | `SurveyStatus` | **Required**. New status to be applied |
+| `id`      | `string` | **Required**. Id of the survey to be updated |
+
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
 
 
 ## Acknowledgements

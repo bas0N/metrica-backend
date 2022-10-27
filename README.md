@@ -1,3 +1,110 @@
+
+# Stack Metrics (backend)
+
+A brief description of what this project does and who it's for
+
+
+## Features
+
+- Light/dark mode toggle
+- Live previews
+- Fullscreen mode
+- Cross platform
+
+
+## Authors
+
+- [@bas0N](https://www.github.com/octokatherine)
+
+
+## Tech Stack
+
+
+**Server:** Node, NestJs, AWS 
+
+
+
+## API Reference
+
+#### Retrieve all surveys from the db
+
+```http
+  GET /survey/getSurveys
+```
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+#### Create survey
+
+```http
+  POST /survey/createSurvey
+```
+
+| Body | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `email`      | `string` | **Required**. -- |
+| `recipientEmail`      | `string` | **Required**. Email of the recipent |
+| `candidateFirstName`      | `string` | **Required**. First name of the candidate. |
+| `candidateLastName`      | `string` | **Required**. Last name of the candidate. |
+| `status`      | `SurveyStatus` | **Required**. Initial status of the survey. |
+| `terminationDate`      | `Date` | **Required**. Date when the survey shoud terminate. |
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+
+#### Get survey by id
+
+```http
+  GET /survey/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of the survey to fetch |
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+#### Delete survey
+
+```http
+  DELETE /survey/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+#### Change survey state
+
+```http
+  PUT /survey/changeSurveyState
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `newStatus`      | `SurveyStatus` | **Required**. New status to be applied |
+| `id`      | `string` | **Required**. Id of the survey to be updated |
+
+
+| Token | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Bearer token` | `string` | **Required**. Your api token. |
+
+
+
+## Acknowledgements
+
+ - [Readme generator](https://readme.so/editor)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

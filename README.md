@@ -17,7 +17,7 @@ A brief description of what this project does and who it's for
 
 ## API Reference
 
-#### Get all items
+#### Retrieve all surveys from the db
 
 ```http
   GET /survey/getSurveys
@@ -25,18 +25,24 @@ A brief description of what this project does and who it's for
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-| `api_key` | `string` | **Required**. Your API key |
+| `Bearer token` | `string` | **Required**. Your api token. |
 
 #### Create survey
 
 ```http
-  GET /api/items/${id}
+  POST /api/items/${id}
 ```
 
-| Parameter | Type     | Description                       |
+| Body | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+| `email`      | `string` | **Required**. -- |
+| `recipientEmail`      | `string` | **Required**. Email of the recipent |
+| `candidateFirstName`      | `string` | **Required**. First name of the candidate. |
+| `candidateLastName`      | `string` | **Required**. Last name of the candidate. |
+| `status`      | `SurveyStatus` | **Required**. Initial status of the survey. |
+| `terminationDate`      | `Date` | **Required**. Date when the survey shoud terminate. |
+
+
 
 #### add(num1, num2)
 

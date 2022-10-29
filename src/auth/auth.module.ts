@@ -11,14 +11,16 @@ import { UsersRepository } from 'src/db/repositories/users.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/db/schemas/user.schema';
 import { jwtConfig } from 'src/config/jwt.config';
+import { Auth0Strategy } from './auth0.strategy';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'auth0' }),
     UsersModule,
     JwtModule.registerAsync(jwtConfig),
   ],
   providers: [
+    Auth0Strategy,
     LocalStrategy,
     JwtStrategy,
     UsersService,

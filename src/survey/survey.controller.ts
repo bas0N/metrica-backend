@@ -27,7 +27,7 @@ export class SurveyController {
     return this.surveyService.createSurvey(email, addSurveyDto);
   }
   //add user verifiaction
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('auth0'))
   @Get('getSurveys')
   getSurveys() {
     try {

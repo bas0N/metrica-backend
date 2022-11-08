@@ -64,4 +64,9 @@ export class SurveyController {
   changeSurveystate(@Body() changeStateDto: ChangeStateDto) {
     return this.surveyService.changeSurveystate(changeStateDto);
   }
+  //send survey
+  @Post('sendSurvey')
+  sendSurvey() {
+    return this.surveyService.sendSurvey();
+  }
 }

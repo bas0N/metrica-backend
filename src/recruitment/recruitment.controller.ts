@@ -1,12 +1,13 @@
-import { Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
+import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';
 
 @Controller('recruitment')
 export class RecruitmentController {
   constructor(private readonly recruitmentService: RecruitmentService) {}
   @Post('addRecruitment')
-  addRecruitmentProcess() {
-    return this.recruitmentService.addRecruitmentProcess();
+  addRecruitmentProcess(@Body() addRecruitmentDto: AddRecruitmentDto) {
+    return this.recruitmentService.addRecruitmentProcess(addRecruitmentDto);
   }
   @Put('editRecruitment')
   editRecruitmentProcess() {

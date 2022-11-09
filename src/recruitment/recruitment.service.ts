@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 
 @Injectable()
 export class RecruitmentService {
-  async addRecruitmentProcess() {
-    return { bason: 'lolo' };
+  async addRecruitmentProcess(addRecruitmentDto: AddRecruitmentDto) {
+    return addRecruitmentDto;
   }
   async editRecruitmentProcess() {
     return { output: 'edit' };

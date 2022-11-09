@@ -12,7 +12,7 @@ export class RecruitmentService {
     return { output: 'edit' };
   }
   async deleteRecruitment(recruitmentId: string) {
-    return { recruitmentId };
+    return this.recruitmentRepository.deleteRecruitment(recruitmentId);
   }
   async getAllRecruitments() {
     return this.recruitmentRepository.getAllRecruitments();

@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AddRecruitmentDto } from 'src/recruitment/dto/AddRecruitment.dto';
@@ -29,5 +33,17 @@ export class RecruitmentRepository {
     }
   }
   async editRecruitment() {}
-  async deleteRecruitment() {}
+  async deleteRecruitment(recruitmentId: string) {
+    try {
+      const survey = await this.recruitmentModel.findByIdAndDelete(
+        recruitmentId,
+      );
+      if (!survey) {
+        throw new BadRequestException();
+      }
+      return survey;
+    } catch (err) {
+      throw new InternalServerErrorException('Recruitment does not exist.');
+    }
+  }
 }

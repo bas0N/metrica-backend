@@ -28,7 +28,7 @@ export class RecruitmentController {
   editRecruitmentProcess() {
     return this.recruitmentService.editRecruitmentProcess();
   }
-  @Delete('deleteRecruitment')
+  @Delete('deleteRecruitment/:recruitmentId')
   deleteRecruitment(@Param('recruitmentId') recruitmentId: string) {
     return this.recruitmentService.deleteRecruitment(recruitmentId);
   }

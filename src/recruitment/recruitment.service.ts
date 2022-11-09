@@ -14,4 +14,7 @@ export class RecruitmentService {
   async deleteRecruitment(recruitmentId: string) {
     return { recruitmentId };
   }
+  async getAllRecruitments() {
+    return this.recruitmentRepository.getAllRecruitments();
+  }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { SurveyType } from 'src/db/schemas/recrutiment.schema';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';
@@ -11,6 +19,10 @@ export class RecruitmentController {
     console.log(addRecruitmentDto);
     //return SurveyType[addRecruitmentDto.surveyType];
     return this.recruitmentService.addRecruitmentProcess(addRecruitmentDto);
+  }
+  @Get('getAllRecruitments')
+  getAllRecruitments() {
+    return this.recruitmentService.getAllRecruitments();
   }
   @Put('editRecruitment')
   editRecruitmentProcess() {

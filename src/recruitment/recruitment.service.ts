@@ -9,4 +9,7 @@ export class RecruitmentService {
   async editRecruitmentProcess() {
     return { output: 'edit' };
   }
+  async deleteRecruitment(recruitmentId: string) {
+    return { recruitmentId };
+  }
 }

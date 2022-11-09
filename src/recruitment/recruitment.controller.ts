@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';
 
@@ -12,5 +12,9 @@ export class RecruitmentController {
   @Put('editRecruitment')
   editRecruitmentProcess() {
     return this.recruitmentService.editRecruitmentProcess();
+  }
+  @Delete('deleteRecruitment')
+  deleteRecruitment(@Param('recruitmentId') recruitmentId: string) {
+    return this.recruitmentService.deleteRecruitment(recruitmentId);
   }
 }

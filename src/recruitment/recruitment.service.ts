@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { RecruitmentRepository } from 'src/db/repositories/recruitment.repository';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 
 @Injectable()
 export class RecruitmentService {
+  constructor(private recruitmentRepository: RecruitmentRepository) {}
   async addRecruitmentProcess(addRecruitmentDto: AddRecruitmentDto) {
-    return addRecruitmentDto;
+    return await this.recruitmentRepository.addRecruitment(addRecruitmentDto);
   }
   async editRecruitmentProcess() {
     return { output: 'edit' };

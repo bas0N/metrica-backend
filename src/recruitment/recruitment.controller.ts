@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import { SurveyType } from 'src/db/schemas/recrutiment.schema';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';
 
@@ -7,6 +8,8 @@ export class RecruitmentController {
   constructor(private readonly recruitmentService: RecruitmentService) {}
   @Post('addRecruitment')
   addRecruitmentProcess(@Body() addRecruitmentDto: AddRecruitmentDto) {
+    console.log(addRecruitmentDto);
+    //return SurveyType[addRecruitmentDto.surveyType];
     return this.recruitmentService.addRecruitmentProcess(addRecruitmentDto);
   }
   @Put('editRecruitment')

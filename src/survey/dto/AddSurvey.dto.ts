@@ -10,7 +10,7 @@ export class AddSurveyDto {
   @IsNotEmpty()
   surveyStatus: SurveyStatus;
   @IsNotEmpty()
-  surveyType: SurveyType;
+  recruitmentId: string;
   @IsNotEmpty()
   terminationDate: Date;
 }

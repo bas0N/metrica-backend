@@ -18,7 +18,11 @@ export class RecruitmentRepository {
     @InjectModel(Recruitment.name)
     private recruitmentModel: Model<RecruitmentDocument>,
   ) {}
+  async findRecruitment(recruitmentId: string): Promise<Recruitment> {
+    const recruitment = await this.recruitmentModel.findById(recruitmentId);
 
+    return recruitment;
+  }
   async addRecruitment(addRecruitmentDto: AddRecruitmentDto) {
     const recruitment = {};
     const newRecruitment = new this.recruitmentModel(addRecruitmentDto);

@@ -37,7 +37,7 @@ export class SurveyController {
     }
   }
   //get survey details
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Get('/:surveyId')
   getSurveyDetails(@Param('surveyId') id: string) {
     try {

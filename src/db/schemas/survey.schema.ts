@@ -2,6 +2,7 @@ import { Transform, Type } from 'class-transformer';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { User } from './user.schema';
+import { Recruitment } from './recrutiment.schema';
 export type SurveyDocument = Survey & Document;
 export interface SavedUser extends Document {
   email: string;
@@ -37,8 +38,10 @@ export class Survey {
 
   @Prop()
   surveyStatus: SurveyStatus;
-  @Prop()
-  surveyType: SurveyType;
+  //user relation
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Recruitment.name })
+  @Type(() => Recruitment)
+  recruitment: Recruitment;
 
   @Prop()
   terminationDate: Date;

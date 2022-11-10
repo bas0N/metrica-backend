@@ -13,6 +13,12 @@ export enum SurveyStatus {
   PENDING,
   DRAFT,
 }
+export enum SurveyType {
+  FRONTEND,
+  BACKEND,
+  UXUI,
+  DEVOPS,
+}
 @Schema()
 export class Survey {
   //user relation
@@ -30,7 +36,9 @@ export class Survey {
   candidateLastName: string;
 
   @Prop()
-  status: SurveyStatus;
+  surveyStatus: SurveyStatus;
+  @Prop()
+  surveyType: SurveyType;
 
   @Prop()
   terminationDate: Date;

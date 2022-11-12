@@ -58,4 +58,7 @@ export class SurveyService {
     };
     return response;
   }
+  async sendSurvey() {
+    return { output: 'sendSurvey' };
+  }
 }

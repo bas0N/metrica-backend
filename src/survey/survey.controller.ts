@@ -18,7 +18,7 @@ import { SurveyService } from './survey.service';
 export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Post('createSurvey')
   createSurvey(
     @Body()
@@ -27,7 +27,7 @@ export class SurveyController {
     return this.surveyService.createSurvey(email, addSurveyDto);
   }
   //add user verifiaction
-  @UseGuards(AuthGuard('auth0'))
+  //@UseGuards(AuthGuard('auth0'))
   @Get('getSurveys')
   getSurveys() {
     try {
@@ -37,7 +37,7 @@ export class SurveyController {
     }
   }
   //get survey details
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Get('/:surveyId')
   getSurveyDetails(@Param('surveyId') id: string) {
     try {
@@ -53,7 +53,7 @@ export class SurveyController {
     return this.surveyService.editSurvey();
   }
   //delete survey
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Delete('/:surveyId')
   deleteSurvey(@Param('surveyId') id: string) {
     return this.surveyService.deleteSurvey(id);
@@ -63,5 +63,10 @@ export class SurveyController {
   @Put('changeSurveyState')
   changeSurveystate(@Body() changeStateDto: ChangeStateDto) {
     return this.surveyService.changeSurveystate(changeStateDto);
+  }
+  //send survey
+  @Post('sendSurvey')
+  sendSurvey() {
+    return this.surveyService.sendSurvey();
   }
 }

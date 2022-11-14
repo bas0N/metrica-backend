@@ -40,7 +40,7 @@ export class SurveyController {
   }
   @Get('getSurveysPaginated/:num')
   getSurveysPaginated(@Param('num') num: string) {
-    if (isNaN(Number(num)) || Number(num) < 0) {
+    if (isNaN(Number(num)) || Number(num) < 1) {
       throw new BadRequestException('The given page is not a number');
     } else {
       const pageNum = Number(num);

@@ -37,7 +37,51 @@ export class SurveyService {
       throw new BadRequestException('Incorrect page num.');
     }
     return surveys;*/
-    return await this.surveyRepository.getSurveysCount();
+
+    try {
+      const pageSize = 3;
+      const { surveyCount } = await this.surveyRepository.getSurveysCount();
+      //console.log('surveysnumber:', surveyCount);
+      //validate if the number of pages is valid
+      console.log('pagenum is: ', pageNum);
+      if (Math.ceil(surveyCount / pageSize) < pageNum) {
+        throw new BadRequestException();
+      }
+      const surveys = await this.surveyRepository.getSurveys();
+      if (Math.floor(surveyCount / pageSize) + 1 == pageNum) {
+        console.log(
+          'indexes1: ',
+          (pageNum - 1) * pageSize,
+          (pageNum - 1) * pageSize + (surveyCount % pageSize),
+        );
+        return {
+          surveys: surveys.slice(
+            (pageNum - 1) * pageSize,
+            (pageNum - 1) * pageSize + (surveyCount % pageSize),
+          ),
+          pagesAvailable: Math.ceil(surveyCount / pageSize),
+          totalItems: surveyCount,
+        };
+      } else {
+        console.log(
+          'indexes2: ',
+          (pageNum - 1) * pageSize,
+          (pageNum - 1) * pageSize + 3,
+        );
+        return {
+          surveys: surveys.slice(
+            (pageNum - 1) * pageSize,
+            (pageNum - 1) * pageSize + 3,
+          ),
+          pagesAvailable: Math.ceil(surveyCount / pageSize),
+          totalItems: surveyCount,
+        };
+      }
+    } catch (err) {
+      throw new BadRequestException('Bad page num.');
+    }
+
+    //return await this.surveyRepository.getSurveysCount();
   }
   async getSurveyDetails(id: string) {
     const survey = await this.surveyRepository.getSurveyDetails(id);

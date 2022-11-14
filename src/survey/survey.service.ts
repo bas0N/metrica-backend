@@ -13,7 +13,6 @@ import { ChangeStateDto } from './dto/ChangeState.dto';
 export class SurveyService {
   constructor(private surveyRepository: SurveyRepository) {}
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
-    console.log('createSurveyService:');
     console.log(addSurveyDto);
     const survey = await this.surveyRepository.createSurvey(
       email,
@@ -39,19 +38,12 @@ export class SurveyService {
     try {
       const pageSize = 3;
       const { surveyCount } = await this.surveyRepository.getSurveysCount();
-      //console.log('surveysnumber:', surveyCount);
-      //validate if the number of pages is valid
-      console.log('pagenum is: ', pageNum);
+
       if (Math.ceil(surveyCount / pageSize) < pageNum) {
         throw new BadRequestException();
       }
       const surveys = await this.surveyRepository.getSurveys();
       if (Math.floor(surveyCount / pageSize) + 1 == pageNum) {
-        console.log(
-          'indexes1: ',
-          (pageNum - 1) * pageSize,
-          (pageNum - 1) * pageSize + (surveyCount % pageSize),
-        );
         return {
           surveys: surveys.slice(
             (pageNum - 1) * pageSize,
@@ -61,11 +53,6 @@ export class SurveyService {
           totalItems: surveyCount,
         };
       } else {
-        console.log(
-          'indexes2: ',
-          (pageNum - 1) * pageSize,
-          (pageNum - 1) * pageSize + 3,
-        );
         return {
           surveys: surveys.slice(
             (pageNum - 1) * pageSize,
@@ -106,7 +93,7 @@ export class SurveyService {
     const survey = await this.surveyRepository.changeSurveystate(
       changeStateDto,
     );
-    console.log(survey);
+
     if (!survey) {
       throw new BadRequestException('Error occured while updating survey.');
     }

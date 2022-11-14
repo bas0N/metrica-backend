@@ -36,7 +36,7 @@ export class SurveyController {
     try {
       return this.surveyService.getSurveys();
     } catch (err) {
-      console.log(err);
+      throw new InternalServerErrorException(err);
     }
   }
   @Get('getSurveysPaginated/:num')
@@ -63,7 +63,7 @@ export class SurveyController {
     try {
       return this.surveyService.getSurveyDetails(id);
     } catch (err) {
-      console.log(err);
+      throw new InternalServerErrorException(err);
     }
   }
   @Get('searchSurveys')

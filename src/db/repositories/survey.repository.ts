@@ -78,26 +78,7 @@ export class SurveyRepository {
       return undefined;
     }
   }
-  async getSurveysPaginated(pageNum: number) {
-    try {
-      const pageSize = 3;
-      const surveysNumber = await this.surveyModel.count();
-      console.log('surveysnumber:', surveysNumber);
-      //validate if the number of pages is valid
-      if (
-        pageNum * pageSize >
-        surveysNumber + pageSize - (surveysNumber % pageSize)
-      ) {
-        console.log('too much');
-        return [];
-      }
-      const surveys = await this.surveyModel.find().populate('recruitment');
-      console.log((pageNum + 1) * pageSize);
-      return surveys.slice(pageNum * pageSize, (pageNum + 1) * pageSize);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
   async getSurveysCount() {
     try {
       return { surveyCount: await this.surveyModel.count() };
@@ -134,8 +115,4 @@ export class SurveyRepository {
       return undefined;
     }
   }
-  //   async createSurvey(survey: AddSurveyDto): Promise<Survey> {
-  //     const newSurvey = new this.surveyModel(survey);
-  //     return newSurvey.save();
-  //   }
 }

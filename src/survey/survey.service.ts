@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ResponseDto } from 'src/config/response.dto';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
 import { SurveyStatus } from 'src/db/schemas/survey.schema';
@@ -23,6 +27,17 @@ export class SurveyService {
       throw new BadRequestException('Incorrect survey id.');
     }
     return surveys;
+  }
+  async searchSurveys(email, searchSurveysDto) {
+    return { searchsurvey: 'search' };
+  }
+  async getSurveysPaginated(pageNum: number) {
+    /*const surveys = await this.surveyRepository.getSurveysPaginated(pageNum);
+    if (!surveys || surveys.length == 0) {
+      throw new BadRequestException('Incorrect page num.');
+    }
+    return surveys;*/
+    return await this.surveyRepository.getSurveysCount();
   }
   async getSurveyDetails(id: string) {
     const survey = await this.surveyRepository.getSurveyDetails(id);

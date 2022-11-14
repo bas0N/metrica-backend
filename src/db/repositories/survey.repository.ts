@@ -1,6 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
+
 import { AddSurveyDto } from 'src/survey/dto/AddSurvey.dto';
 import { ChangeStateDto } from 'src/survey/dto/ChangeState.dto';
 import {
@@ -9,6 +15,7 @@ import {
 } from '../schemas/recrutiment.schema';
 import {
   SurveyDocument,
+  SurveySchema,
   SurveyStatus,
   SurveyType,
 } from '../schemas/survey.schema';
@@ -69,6 +76,33 @@ export class SurveyRepository {
     } catch (err) {
       console.log(err);
       return undefined;
+    }
+  }
+  async getSurveysPaginated(pageNum: number) {
+    try {
+      const pageSize = 3;
+      const surveysNumber = await this.surveyModel.count();
+      console.log('surveysnumber:', surveysNumber);
+      //validate if the number of pages is valid
+      if (
+        pageNum * pageSize >
+        surveysNumber + pageSize - (surveysNumber % pageSize)
+      ) {
+        console.log('too much');
+        return [];
+      }
+      const surveys = await this.surveyModel.find().populate('recruitment');
+      console.log((pageNum + 1) * pageSize);
+      return surveys.slice(pageNum * pageSize, (pageNum + 1) * pageSize);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async getSurveysCount() {
+    try {
+      return { surveyCount: await this.surveyModel.count() };
+    } catch (err) {
+      throw new InternalServerErrorException(err);
     }
   }
   async deleteSurvey(id: string): Promise<Survey | undefined> {

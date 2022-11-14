@@ -20,6 +20,12 @@ export enum SurveyType {
   UXUI,
   DEVOPS,
 }
+export enum SeachTextProperty {
+  NAME,
+  ID,
+  EMAIL,
+}
+
 @Schema()
 export class Survey {
   //user relation

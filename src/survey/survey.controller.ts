@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -12,6 +13,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
+import { SearchSurveysDto } from './dto/SearchSurveys.dto';
 import { SurveyService } from './survey.service';
 
 @Controller('survey')
@@ -36,12 +38,38 @@ export class SurveyController {
       console.log(err);
     }
   }
+  @Get('getSurveysPaginated/:num')
+  getSurveysPaginated(@Param('num') num: string) {
+    if (isNaN(Number(num)) || Number(num) < 0) {
+      throw new BadRequestException('The given page is not a number');
+    } else {
+      const pageNum = Number(num);
+      return this.surveyService.getSurveysPaginated(pageNum);
+    }
+  }
   //get survey details
   //@UseGuards(AuthGuard('jwt'))
   @Get('/:surveyId')
   getSurveyDetails(@Param('surveyId') id: string) {
     try {
       return this.surveyService.getSurveyDetails(id);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  @Get('searchSurveys')
+  searchSurveys(
+    @Body()
+    {
+      email,
+      searchSurveysDto,
+    }: {
+      email: String;
+      searchSurveysDto: SearchSurveysDto;
+    },
+  ) {
+    try {
+      return this.surveyService.searchSurveys(email, searchSurveysDto);
     } catch (err) {
       console.log(err);
     }

@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  InternalServerErrorException,
   Param,
   Post,
   Put,
@@ -45,6 +46,14 @@ export class SurveyController {
     } else {
       const pageNum = Number(num);
       return this.surveyService.getSurveysPaginated(pageNum);
+    }
+  }
+  @Get('getNumberOfSurveyPages')
+  getNumberOfSurveyPages() {
+    try {
+      return this.surveyService.getNumberOfSurveyPages();
+    } catch (err) {
+      throw new InternalServerErrorException(err);
     }
   }
   //get survey details

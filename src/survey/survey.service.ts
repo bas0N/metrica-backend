@@ -31,13 +31,11 @@ export class SurveyService {
   async searchSurveys(email, searchSurveysDto) {
     return { searchsurvey: 'search' };
   }
+  async getNumberOfSurveyPages() {
+    const { surveyCount } = await this.surveyRepository.getSurveysCount();
+    return { numOfSurveyPages: Math.ceil(surveyCount / 3) };
+  }
   async getSurveysPaginated(pageNum: number) {
-    /*const surveys = await this.surveyRepository.getSurveysPaginated(pageNum);
-    if (!surveys || surveys.length == 0) {
-      throw new BadRequestException('Incorrect page num.');
-    }
-    return surveys;*/
-
     try {
       const pageSize = 3;
       const { surveyCount } = await this.surveyRepository.getSurveysCount();

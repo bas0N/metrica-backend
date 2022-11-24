@@ -1,37 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
+
 import { AddSurveyDto } from 'src/survey/dto/AddSurvey.dto';
-import { SurveyDocument, SurveyStatus } from '../schemas/survey.schema';
+import { ChangeStateDto } from 'src/survey/dto/ChangeState.dto';
+import {
+  Recruitment,
+  RecruitmentDocument,
+} from '../schemas/recrutiment.schema';
+import {
+  SurveyDocument,
+  SurveySchema,
+  SurveyStatus,
+  SurveyType,
+} from '../schemas/survey.schema';
 import { Survey } from '../schemas/survey.schema';
 import { User, UserDocument } from '../schemas/user.schema';
+import { RecruitmentRepository } from './recruitment.repository';
 import { UsersRepository } from './users.repository';
 @Injectable()
 export class SurveyRepository {
   constructor(
     @InjectModel(Survey.name) private surveyModel: Model<SurveyDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Recruitment.name)
+    private recruitmentModel: Model<RecruitmentDocument>,
     private userRepository: UsersRepository,
+    private recruitmentRepository: RecruitmentRepository,
   ) {}
 
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
     const user = await this.userRepository.findUser(email);
-    console.log(SurveyStatus[addSurveyDto.status]);
+    const recruitment = await this.recruitmentRepository.findRecruitment(
+      addSurveyDto.recruitmentId,
+    );
+    console.log(SurveyStatus[addSurveyDto.surveyStatus]);
     const survey = {
       createdBy: user,
       ...addSurveyDto,
-      status:
-        SurveyStatus[addSurveyDto.status] !== undefined
-          ? SurveyStatus[addSurveyDto.status]
+      surveyStatus:
+        SurveyStatus[addSurveyDto.surveyStatus] !== undefined
+          ? SurveyStatus[addSurveyDto.surveyStatus]
           : SurveyStatus['PENDING'],
+      recruitment,
     };
-    console.log(survey);
     const newSurvey = new this.surveyModel(survey);
     return newSurvey.save();
   }
   async getSurveyDetails(id: string): Promise<Survey | undefined> {
     try {
-      const survey = await this.surveyModel.findById(id);
+      const survey = await (
+        await this.surveyModel.findById(id)
+      ).populate('recruitment');
       if (!survey) {
         return undefined;
       }
@@ -43,7 +68,7 @@ export class SurveyRepository {
   }
   async getSurveys(): Promise<Survey[] | undefined> {
     try {
-      const surveys = await this.surveyModel.find();
+      const surveys = await this.surveyModel.find().populate('recruitment');
       if (!surveys) {
         return undefined;
       }
@@ -54,8 +79,40 @@ export class SurveyRepository {
     }
   }
 
-  //   async createSurvey(survey: AddSurveyDto): Promise<Survey> {
-  //     const newSurvey = new this.surveyModel(survey);
-  //     return newSurvey.save();
-  //   }
+  async getSurveysCount() {
+    try {
+      return { surveyCount: await this.surveyModel.count() };
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+  async deleteSurvey(id: string): Promise<Survey | undefined> {
+    try {
+      const survey = await this.surveyModel.findByIdAndDelete(id);
+      if (!survey) {
+        return undefined;
+      }
+      console.log(survey);
+      return survey;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
+
+  async changeSurveystate({ newStatus, id }: ChangeStateDto) {
+    try {
+      const survey = await this.surveyModel.findByIdAndUpdate(id, {
+        status: SurveyStatus[newStatus],
+      });
+      if (!survey) {
+        return undefined;
+      }
+      console.log(survey);
+      return survey;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
 }

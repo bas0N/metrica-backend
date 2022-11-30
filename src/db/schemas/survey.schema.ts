@@ -49,7 +49,7 @@ export class Survey {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Recruitment.name })
   @Type(() => Recruitment)
   recruitment: Recruitment;
-
+  @Prop()
   surveyData: FillSurveyDto;
   @Prop()
   terminationDate: Date;

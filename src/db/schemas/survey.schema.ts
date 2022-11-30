@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { User } from './user.schema';
 import { Recruitment } from './recrutiment.schema';
+import { FillSurveyDto } from 'src/survey/dto/FillSurvey.dto';
 export type SurveyDocument = Survey & Document;
 export interface SavedUser extends Document {
   email: string;
@@ -49,6 +50,7 @@ export class Survey {
   @Type(() => Recruitment)
   recruitment: Recruitment;
 
+  surveyData: FillSurveyDto;
   @Prop()
   terminationDate: Date;
   @Prop({ default: new Date(), required: false })

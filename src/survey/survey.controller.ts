@@ -14,6 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
+import { FillSurveyDto } from './dto/FillSurvey.dto';
 import { SearchSurveysDto } from './dto/SearchSurveys.dto';
 import { SurveyService } from './survey.service';
 
@@ -96,10 +97,17 @@ export class SurveyController {
     return this.surveyService.deleteSurvey(id);
   }
   //change state
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Put('changeSurveyState')
   changeSurveystate(@Body() changeStateDto: ChangeStateDto) {
     return this.surveyService.changeSurveystate(changeStateDto);
+  }
+  @Put('fillSurvey/:surveyId')
+  fillSurvey(
+    @Param('surveyId') id: string,
+    @Body() fillSurveyDto: FillSurveyDto,
+  ) {
+    return this.surveyService.fillSurvey(fillSurveyDto, id);
   }
   //send survey
   @Post('sendSurvey')

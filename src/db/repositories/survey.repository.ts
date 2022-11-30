@@ -9,6 +9,7 @@ import paginate from 'mongoose-paginate-v2';
 
 import { AddSurveyDto } from 'src/survey/dto/AddSurvey.dto';
 import { ChangeStateDto } from 'src/survey/dto/ChangeState.dto';
+import { FillSurveyDto } from 'src/survey/dto/FillSurvey.dto';
 import {
   Recruitment,
   RecruitmentDocument,
@@ -33,6 +34,19 @@ export class SurveyRepository {
     private userRepository: UsersRepository,
     private recruitmentRepository: RecruitmentRepository,
   ) {}
+  async fillSurvey(fillSurveyDto: FillSurveyDto, id: string) {
+    try {
+      const survey = await this.surveyModel.findByIdAndUpdate(id, {
+        surveyData: fillSurveyDto,
+      });
+      if (!survey) {
+        return undefined;
+      }
+      return survey;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
     const user = await this.userRepository.findUser(email);

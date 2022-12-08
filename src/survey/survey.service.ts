@@ -8,10 +8,32 @@ import { SurveyRepository } from 'src/db/repositories/survey.repository';
 import { SurveyStatus } from 'src/db/schemas/survey.schema';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
+import { FillSurveyDto } from './dto/FillSurvey.dto';
 
 @Injectable()
 export class SurveyService {
   constructor(private surveyRepository: SurveyRepository) {}
+
+  async startSurvey(id: string) {
+    const survey = await this.surveyRepository.startSurvey(id);
+
+    if (!survey) {
+      throw new BadRequestException('Error occured while starting survey.');
+    }
+    const response: ResponseDto = {
+      message: 'Survey has been started succesfully',
+    };
+    return response;
+  }
+
+  async fillSurvey(fillSurveyDto: FillSurveyDto, id: string) {
+    const survey = await this.surveyRepository.fillSurvey(fillSurveyDto, id);
+    if (!survey) {
+      throw new BadRequestException('Error occured');
+    }
+    return survey;
+  }
+
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
     console.log(addSurveyDto);
     const survey = await this.surveyRepository.createSurvey(

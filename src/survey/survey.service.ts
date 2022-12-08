@@ -13,6 +13,19 @@ import { FillSurveyDto } from './dto/FillSurvey.dto';
 @Injectable()
 export class SurveyService {
   constructor(private surveyRepository: SurveyRepository) {}
+
+  async startSurvey(id: string) {
+    const survey = await this.surveyRepository.startSurvey(id);
+
+    if (!survey) {
+      throw new BadRequestException('Error occured while starting survey.');
+    }
+    const response: ResponseDto = {
+      message: 'Survey has been started succesfully',
+    };
+    return response;
+  }
+
   async fillSurvey(fillSurveyDto: FillSurveyDto, id: string) {
     const survey = await this.surveyRepository.fillSurvey(fillSurveyDto, id);
     if (!survey) {

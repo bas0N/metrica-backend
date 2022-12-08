@@ -114,4 +114,9 @@ export class SurveyController {
   sendSurvey() {
     return this.surveyService.sendSurvey();
   }
+  //start survey
+  @Get('startSurvey/:id')
+  startSurvey(@Param('id') id: string) {
+    return this.surveyService.startSurvey(id);
+  }
 }

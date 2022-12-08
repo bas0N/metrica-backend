@@ -34,6 +34,16 @@ export class SurveyRepository {
     private userRepository: UsersRepository,
     private recruitmentRepository: RecruitmentRepository,
   ) {}
+  async startSurvey(id: string) {
+    try {
+      const survey = await this.surveyModel.findById(id);
+      if (!survey) {
+        return undefined;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   async fillSurvey(fillSurveyDto: FillSurveyDto, id: string) {
     try {
       const survey = await this.surveyModel.findByIdAndUpdate(id, {

@@ -127,12 +127,11 @@ export class SurveyRepository {
   async changeSurveystate({ newStatus, id }: ChangeStateDto) {
     try {
       const survey = await this.surveyModel.findByIdAndUpdate(id, {
-        status: SurveyStatus[newStatus],
+        surveyStatus: SurveyStatus[newStatus],
       });
       if (!survey) {
         return undefined;
       }
-      console.log(survey);
       return survey;
     } catch (err) {
       console.log(err);

@@ -63,7 +63,6 @@ export class SurveyRepository {
     const recruitment = await this.recruitmentRepository.findRecruitment(
       addSurveyDto.recruitmentId,
     );
-    console.log(SurveyStatus[addSurveyDto.surveyStatus]);
     const survey = {
       createdBy: user,
       ...addSurveyDto,

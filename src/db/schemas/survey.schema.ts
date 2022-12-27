@@ -30,9 +30,8 @@ export enum SeachTextProperty {
 @Schema()
 export class Survey {
   //user relation
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  @Type(() => User)
-  createdBy: User;
+  @Prop()
+  creatorEmail: string;
 
   //recruitment proces relation
 

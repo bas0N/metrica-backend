@@ -9,7 +9,11 @@ import {
   Post,
   Put,
   UseGuards,
+  Req,
 } from '@nestjs/common';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { Request } from 'express';
+
 import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
@@ -23,17 +27,19 @@ export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
 
   //@UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('auth0'))
   @Post('createSurvey')
   createSurvey(
+    @GetUser() email,
     @Body()
-    { email, addSurveyDto }: { email: String; addSurveyDto: AddSurveyDto },
+    { addSurveyDto }: { addSurveyDto: AddSurveyDto },
   ) {
     return this.surveyService.createSurvey(email, addSurveyDto);
   }
   //add user verifiaction
-  //@UseGuards(AuthGuard('auth0'))
+  @UseGuards(AuthGuard('auth0'))
   @Get('getSurveys')
-  getSurveys() {
+  getSurveys(@GetUser() email) {
     try {
       return this.surveyService.getSurveys();
     } catch (err) {

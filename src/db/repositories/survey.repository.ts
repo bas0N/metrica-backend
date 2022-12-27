@@ -59,12 +59,12 @@ export class SurveyRepository {
   }
 
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
-    const user = await this.userRepository.findUser(email);
     const recruitment = await this.recruitmentRepository.findRecruitment(
       addSurveyDto.recruitmentId,
     );
+    // console.log('in repo', email);
     const survey = {
-      createdBy: user,
+      creatorEmail: email,
       ...addSurveyDto,
       surveyStatus:
         SurveyStatus[addSurveyDto.surveyStatus] !== undefined

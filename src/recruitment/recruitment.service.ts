@@ -5,8 +5,14 @@ import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 @Injectable()
 export class RecruitmentService {
   constructor(private recruitmentRepository: RecruitmentRepository) {}
-  async addRecruitmentProcess(addRecruitmentDto: AddRecruitmentDto) {
-    return await this.recruitmentRepository.addRecruitment(addRecruitmentDto);
+  async addRecruitmentProcess(
+    email: string,
+    addRecruitmentDto: AddRecruitmentDto,
+  ) {
+    return await this.recruitmentRepository.addRecruitment(
+      email,
+      addRecruitmentDto,
+    );
   }
   async editRecruitmentProcess() {
     return { output: 'edit' };

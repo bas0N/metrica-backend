@@ -41,24 +41,26 @@ export class SurveyController {
   @Get('getSurveys')
   getSurveys(@GetUser() email) {
     try {
-      return this.surveyService.getSurveys();
+      return this.surveyService.getSurveys(email);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
   }
+  @UseGuards(AuthGuard('auth0'))
   @Get('getSurveysPaginated/:num')
-  getSurveysPaginated(@Param('num') num: string) {
+  getSurveysPaginated(@GetUser() email, @Param('num') num: string) {
     if (isNaN(Number(num)) || Number(num) < 1) {
       throw new BadRequestException('The given page is not a number');
     } else {
       const pageNum = Number(num);
-      return this.surveyService.getSurveysPaginated(pageNum);
+      return this.surveyService.getSurveysPaginated(email, pageNum);
     }
   }
+  @UseGuards(AuthGuard('auth0'))
   @Get('getNumberOfSurveyPages')
-  getNumberOfSurveyPages() {
+  getNumberOfSurveyPages(@GetUser() email) {
     try {
-      return this.surveyService.getNumberOfSurveyPages();
+      return this.surveyService.getNumberOfSurveyPages(email);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }

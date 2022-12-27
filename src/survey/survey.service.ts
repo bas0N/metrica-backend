@@ -40,6 +40,11 @@ export class SurveyService {
       email,
       addSurveyDto,
     );
+    //send email to user with the following url
+    console.log(
+      `http://localhost:3002/form/start-form/${survey?._id.toString()}`,
+    );
+    console.log(survey);
     return survey;
   }
   async getSurveys() {

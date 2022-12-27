@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 import * as dotenv from 'dotenv';
+import { auth0payload } from './dto/auth0Payload.dto';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     });
   }
 
-  validate(payload: unknown): unknown {
+  validate(payload: auth0payload): unknown {
     return payload;
   }
 }

@@ -20,7 +20,7 @@ export class RecruitmentService {
   async deleteRecruitment(recruitmentId: string) {
     return this.recruitmentRepository.deleteRecruitment(recruitmentId);
   }
-  async getAllRecruitments() {
-    return this.recruitmentRepository.getAllRecruitments();
+  async getAllRecruitments(email: string) {
+    return this.recruitmentRepository.getAllRecruitments(email);
   }
 }

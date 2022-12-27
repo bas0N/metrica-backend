@@ -32,9 +32,11 @@ export class RecruitmentRepository {
     });
     return newRecruitment.save();
   }
-  async getAllRecruitments() {
+  async getAllRecruitments(email: string) {
     try {
-      const recruitments = await this.recruitmentModel.find();
+      const recruitments = await this.recruitmentModel.find({
+        creatorEmail: email,
+      });
       return recruitments;
     } catch (err) {
       throw new InternalServerErrorException(err);

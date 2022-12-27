@@ -30,10 +30,10 @@ export class RecruitmentController {
       addRecruitmentDto,
     );
   }
-
+  @UseGuards(AuthGuard('auth0'))
   @Get('getAllRecruitments')
-  getAllRecruitments() {
-    return this.recruitmentService.getAllRecruitments();
+  getAllRecruitments(@GetUser() email) {
+    return this.recruitmentService.getAllRecruitments(email);
   }
   @Put('editRecruitment')
   editRecruitmentProcess() {

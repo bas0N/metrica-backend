@@ -23,14 +23,20 @@ export class RecruitmentRepository {
 
     return recruitment;
   }
-  async addRecruitment(addRecruitmentDto: AddRecruitmentDto) {
+  async addRecruitment(email: string, addRecruitmentDto: AddRecruitmentDto) {
     const recruitment = {};
-    const newRecruitment = new this.recruitmentModel(addRecruitmentDto);
+    console.log(email);
+    const newRecruitment = new this.recruitmentModel({
+      creatorEmail: email,
+      ...addRecruitmentDto,
+    });
     return newRecruitment.save();
   }
-  async getAllRecruitments() {
+  async getAllRecruitments(email: string) {
     try {
-      const recruitments = await this.recruitmentModel.find();
+      const recruitments = await this.recruitmentModel.find({
+        creatorEmail: email,
+      });
       return recruitments;
     } catch (err) {
       throw new InternalServerErrorException(err);

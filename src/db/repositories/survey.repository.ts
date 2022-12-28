@@ -89,9 +89,11 @@ export class SurveyRepository {
       return undefined;
     }
   }
-  async getSurveys(): Promise<Survey[] | undefined> {
+  async getSurveys(email: string): Promise<Survey[] | undefined> {
     try {
-      const surveys = await this.surveyModel.find().populate('recruitment');
+      const surveys = await this.surveyModel
+        .find({ creatorEmail: email })
+        .populate('recruitment');
       if (!surveys) {
         return undefined;
       }
@@ -102,9 +104,11 @@ export class SurveyRepository {
     }
   }
 
-  async getSurveysCount() {
+  async getSurveysCount(email: string) {
     try {
-      return { surveyCount: await this.surveyModel.count() };
+      return {
+        surveyCount: await this.surveyModel.count({ creatorEmail: email }),
+      };
     } catch (err) {
       throw new InternalServerErrorException(err);
     }

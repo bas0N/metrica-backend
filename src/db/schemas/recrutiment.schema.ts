@@ -12,6 +12,8 @@ export enum SurveyType {
 @Schema()
 export class Recruitment {
   @Prop()
+  creatorEmail: string;
+  @Prop()
   recruitmentId: string;
   @Prop()
   recruitmentName: string;

@@ -47,8 +47,8 @@ export class SurveyService {
     console.log(survey);
     return survey;
   }
-  async getSurveys() {
-    const surveys = await this.surveyRepository.getSurveys();
+  async getSurveys(email: string) {
+    const surveys = await this.surveyRepository.getSurveys(email);
     if (!surveys) {
       throw new BadRequestException('Incorrect survey id.');
     }
@@ -57,19 +57,21 @@ export class SurveyService {
   async searchSurveys(email, searchSurveysDto) {
     return { searchsurvey: 'search' };
   }
-  async getNumberOfSurveyPages() {
-    const { surveyCount } = await this.surveyRepository.getSurveysCount();
+  async getNumberOfSurveyPages(email: string) {
+    const { surveyCount } = await this.surveyRepository.getSurveysCount(email);
     return { numOfSurveyPages: Math.ceil(surveyCount / 3) };
   }
-  async getSurveysPaginated(pageNum: number) {
+  async getSurveysPaginated(email: string, pageNum: number) {
     try {
       const pageSize = 3;
-      const { surveyCount } = await this.surveyRepository.getSurveysCount();
+      const { surveyCount } = await this.surveyRepository.getSurveysCount(
+        email,
+      );
 
       if (Math.ceil(surveyCount / pageSize) < pageNum) {
         throw new BadRequestException();
       }
-      const surveys = await this.surveyRepository.getSurveys();
+      const surveys = await this.surveyRepository.getSurveys(email);
       if (Math.floor(surveyCount / pageSize) + 1 == pageNum) {
         return {
           surveys: surveys.slice(

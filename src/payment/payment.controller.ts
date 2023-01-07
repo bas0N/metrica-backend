@@ -18,12 +18,14 @@ const stripe = require('stripe')(
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
-  //   @Post()
-  //   async createCharge(@Body() charge: CreateChargeDto) {
-  //     await this.paymentService.charge(charge.amount, charge.paymentMethodId);
-  //   }
+
   @Post()
-  async createCharge() {
-    return await this.paymentService.charge();
+  async createCharge(@Body() { productId }: { productId: string }) {
+    const paymentDetails = await this.paymentService.charge(productId);
+    return paymentDetails;
+  }
+  @Get('/get-all-products')
+  async getAllProducts() {
+    return await this.paymentService.getAllProducts();
   }
 }

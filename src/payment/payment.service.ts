@@ -10,31 +10,13 @@ export class PaymentService {
       apiVersion: '2022-11-15',
     });
   }
-  // public async charge(amount: number, paymentMethodId: string) {
-  //   // return this.stripe.paymentIntents.create({
-  //   //   amount,
-  //   //   customer: process.env.CUSTOMER_ID,
-  //   //   payment_method: paymentMethodId,
-  //   //   currency: process.env.STRIPE_CURRENCY,
-  //   //   confirm: true,
-  //   // });
-  //   const session = await this.stripe.checkout.sessions.create({
-  //     line_items: [
-  //       {
-  //         price_data: {
-  //           currency: 'usd',
-  //           product_data: { name: 'T-shirt' },
-  //           unit_amount: 2000,
-  //         },
-  //         quantity: 1,
-  //       },
-  //     ],
-  //     mode: 'payment',
-  //     success_url: 'http://localhost:3002/buy/success',
-  //     cancel_url: 'http://localhost:3002/buy/failure',
-  //   });
-  // }
-  public async charge() {
+
+  public async getAllProducts() {
+    const products = await this.stripe.products.list();
+    return products;
+  }
+
+  public async charge(productId: string) {
     // return this.stripe.paymentIntents.create({
     //   amount,
     //   customer: process.env.CUSTOMER_ID,
@@ -45,11 +27,11 @@ export class PaymentService {
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
-          price: 'price_1MN494Gl8yFTD812Pxc7q7QP',
+          price: productId,
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: 'subscription',
       success_url: 'http://localhost:3002/buy/success',
       cancel_url: 'http://localhost:3002/buy/failure',
     });

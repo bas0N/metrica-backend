@@ -29,6 +29,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@serverless/utils": "^6.7.0",
+    "@stripe/stripe-js": "^1.46.0",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
     "@vendia/serverless-express": "^4.10.1",
@@ -46,6 +47,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "stripe": "^11.6.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

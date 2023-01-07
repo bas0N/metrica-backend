@@ -13,6 +13,9 @@ import { RecruitmentController } from './recruitment/recruitment.controller';
 import { RecruitmentService } from './recruitment/recruitment.service';
 import { RecruitmentModule } from './recruitment/recruitment.module';
 import { RecruitmentRepository } from './db/repositories/recruitment.repository';
+import { PaymentController } from './payment/payment.controller';
+import { PaymentService } from './payment/payment.service';
+import { PaymentModule } from './payment/payment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -22,10 +25,11 @@ import { RecruitmentRepository } from './db/repositories/recruitment.repository'
     MongooseModule.forRoot(`${process.env.MONGO_DB_CONNECTION_STRING}`),
     SurveyModule,
     AuthzModule,
+    PaymentModule,
   ],
   //only AppController and AppService can be here
   //causing errors!!
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, PaymentController],
+  providers: [AppService, PaymentService],
 })
 export class AppModule {}

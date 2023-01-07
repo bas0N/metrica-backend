@@ -14,6 +14,10 @@ export class User {
   password: string;
   @Prop({ default: new Date(), required: false })
   createdDate: Date;
+  @Prop({ default: false })
+  paymentNeeded: boolean;
+  @Prop()
+  paymentDate: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

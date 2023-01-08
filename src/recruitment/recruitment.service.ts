@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RecruitmentRepository } from 'src/db/repositories/recruitment.repository';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
+import { EditRecruitmentDto } from './dto/EditRecruitment.dto';
 
 @Injectable()
 export class RecruitmentService {
@@ -14,8 +15,10 @@ export class RecruitmentService {
       addRecruitmentDto,
     );
   }
-  async editRecruitmentProcess() {
-    return { output: 'edit' };
+  async editRecruitmentProcess(editRecruitmentData: EditRecruitmentDto) {
+    return this.recruitmentRepository.editRecruitmentProcess(
+      editRecruitmentData,
+    );
   }
   async deleteRecruitment(recruitmentId: string) {
     return this.recruitmentRepository.deleteRecruitment(recruitmentId);

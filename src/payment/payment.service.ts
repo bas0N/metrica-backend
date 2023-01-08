@@ -16,6 +16,9 @@ export class PaymentService {
     return products;
   }
 
+  // public async getAllSubscriptions() {
+  //   const subscriptionItems = await this.stripe.subscriptionItems.list({});
+  // }
   public async charge(productId: string) {
     // return this.stripe.paymentIntents.create({
     //   amount,
@@ -31,7 +34,7 @@ export class PaymentService {
           quantity: 1,
         },
       ],
-      mode: 'subscription',
+      mode: 'payment',
       success_url: 'http://localhost:3002/buy/success',
       cancel_url: 'http://localhost:3002/buy/failure',
     });

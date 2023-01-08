@@ -1,14 +1,12 @@
-import { IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import { SurveyType } from 'src/db/schemas/recrutiment.schema';
-export class AddRecruitmentDto {
-  @IsOptional()
-  recruitmentId: string;
-  @IsOptional()
+export class EditRecruitmentDto {
+  @IsNotEmpty()
+  recruitmenDbtId: string;
+  @IsNotEmpty()
+  recruitmentInternalId: string;
+  @IsNotEmpty()
   recruitmentName: string;
-  @IsOptional()
+  @IsNotEmpty()
   recruitmentDescription: string;
-  @IsOptional()
-  recruitmentDeadline: Date;
-  @IsOptional()
-  surveyType: SurveyType;
 }

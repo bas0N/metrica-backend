@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AddRecruitmentDto } from 'src/recruitment/dto/AddRecruitment.dto';
+import { EditRecruitmentDto } from 'src/recruitment/dto/EditRecruitment.dto';
 import {
   Recruitment,
   RecruitmentDocument,
@@ -22,6 +23,32 @@ export class RecruitmentRepository {
     const recruitment = await this.recruitmentModel.findById(recruitmentId);
 
     return recruitment;
+  }
+  async editRecruitmentProcess(editRecruitmentData: EditRecruitmentDto) {
+    const {
+      recruitmenDbtId,
+      recruitmentInternalId,
+      recruitmentDescription,
+      recruitmentName,
+    } = editRecruitmentData;
+    try {
+      const recruitment = await this.recruitmentModel.findByIdAndUpdate(
+        recruitmenDbtId,
+        {
+          recruitmentId: recruitmentInternalId,
+          recruitmentName: recruitmentName,
+          recruitmentDescription: recruitmentDescription,
+        },
+      );
+      if (!recruitment) {
+        throw new BadRequestException();
+      }
+      return recruitment;
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+
+      console.log(e);
+    }
   }
   async addRecruitment(email: string, addRecruitmentDto: AddRecruitmentDto) {
     const recruitment = {};
@@ -45,13 +72,13 @@ export class RecruitmentRepository {
   async editRecruitment() {}
   async deleteRecruitment(recruitmentId: string) {
     try {
-      const survey = await this.recruitmentModel.findByIdAndDelete(
+      const recruitment = await this.recruitmentModel.findByIdAndDelete(
         recruitmentId,
       );
-      if (!survey) {
+      if (!recruitment) {
         throw new BadRequestException();
       }
-      return survey;
+      return recruitment;
     } catch (err) {
       throw new InternalServerErrorException('Recruitment does not exist.');
     }

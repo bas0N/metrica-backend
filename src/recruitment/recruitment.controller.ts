@@ -12,6 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { SurveyType } from 'src/db/schemas/recrutiment.schema';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
+import { EditRecruitmentDto } from './dto/EditRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';
 
 @Controller('recruitment')
@@ -36,8 +37,8 @@ export class RecruitmentController {
     return this.recruitmentService.getAllRecruitments(email);
   }
   @Put('editRecruitment')
-  editRecruitmentProcess() {
-    return this.recruitmentService.editRecruitmentProcess();
+  editRecruitmentProcess(@Body() editRecruitmentData: EditRecruitmentDto) {
+    return this.recruitmentService.editRecruitmentProcess(editRecruitmentData);
   }
   @Delete('deleteRecruitment/:recruitmentId')
   deleteRecruitment(@Param('recruitmentId') recruitmentId: string) {

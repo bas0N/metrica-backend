@@ -14,10 +14,12 @@ export class User {
   password: string;
   @Prop({ default: new Date(), required: false })
   createdDate: Date;
-  @Prop({ default: false })
+  @Prop({ default: true })
   paymentNeeded: boolean;
   @Prop()
-  paymentDate: Date;
+  lastPayment: Date;
+  @Prop()
+  nextPayment: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -4,12 +4,16 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 import * as dotenv from 'dotenv';
 import { auth0payload } from './dto/auth0Payload.dto';
-
+import { UsersRepository } from '../db/repositories/users.repository';
+import { SurveyRepository } from 'src/db/repositories/survey.repository';
 dotenv.config();
 
 @Injectable()
 export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
-  constructor() {
+  constructor(
+    private usersRepository: UsersRepository,
+    private surveysRepository: SurveyRepository,
+  ) {
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -25,7 +29,13 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     });
   }
 
-  validate(payload: auth0payload): unknown {
+  async validate(payload: auth0payload) {
+    const user = await this.usersRepository.findUser(payload.email);
+    if (!user) {
+      const newUser = await this.usersRepository.addUser(payload.email);
+      console.log('new user created: ', newUser);
+    }
+    console.log('user already existing: ', user);
     return payload;
   }
 }

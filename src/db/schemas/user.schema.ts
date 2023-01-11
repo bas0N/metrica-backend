@@ -10,14 +10,14 @@ export interface SavedUser extends Document {
 export class User {
   @Prop()
   email: string;
-  @Prop()
-  password: string;
   @Prop({ default: new Date(), required: false })
   createdDate: Date;
-  @Prop({ default: false })
+  @Prop({ default: true })
   paymentNeeded: boolean;
-  @Prop()
-  paymentDate: Date;
+  @Prop({ default: new Date(0), required: false })
+  lastPayment: Date;
+  @Prop({ default: new Date(0), required: false })
+  nextPayment: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

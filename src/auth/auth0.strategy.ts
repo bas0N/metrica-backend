@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
@@ -34,8 +34,14 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     if (!user) {
       const newUser = await this.usersRepository.addUser(payload.email);
       console.log('new user created: ', newUser);
+      if (newUser.paymentNeeded) {
+        throw new ForbiddenException('Payment needed.');
+      }
     }
     console.log('user already existing: ', user);
+    if (user.paymentNeeded) {
+      throw new ForbiddenException('Payment needed.');
+    }
     return payload;
   }
 }

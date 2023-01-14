@@ -20,7 +20,13 @@ export class UsersRepository {
   }
   async findUser(email: string): Promise<User> {
     const user = await this.userModel.findOne({ email });
-
+    return user;
+  }
+  async setPaymentNeeded(email: string, paymentNeeded: boolean): Promise<User> {
+    const user = await this.userModel.findOneAndUpdate(
+      { email },
+      { paymentNeeded },
+    );
     return user;
   }
 }

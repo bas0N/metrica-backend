@@ -6,8 +6,11 @@ import {
   Redirect,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { loadStripe } from '@stripe/stripe-js';
+import { GetUser } from 'src/auth/get-user.decorator';
 import CreateChargeDto from './createcharge.dto';
 import { PaymentService } from './payment.service';
 // Make sure to call `loadStripe` outside of a component’s render to avoid

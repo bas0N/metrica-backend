@@ -18,6 +18,7 @@ import {
   RecruitmentSchema,
 } from 'src/db/schemas/recrutiment.schema';
 import { RecruitmentRepository } from 'src/db/repositories/recruitment.repository';
+import { Auth0PaymentStrategy } from './auth0payment.strategy';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
@@ -36,6 +37,7 @@ import { RecruitmentRepository } from 'src/db/repositories/recruitment.repositor
     UsersService,
     AuthService,
     UsersRepository,
+    Auth0PaymentStrategy,
     RecruitmentRepository,
     SurveyRepository,
   ],

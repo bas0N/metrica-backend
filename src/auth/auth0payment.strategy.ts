@@ -9,7 +9,10 @@ import { SurveyRepository } from 'src/db/repositories/survey.repository';
 dotenv.config();
 
 @Injectable()
-export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
+export class Auth0PaymentStrategy extends PassportStrategy(
+  Strategy,
+  'auth0payment',
+) {
   constructor(
     private usersRepository: UsersRepository,
     private surveysRepository: SurveyRepository,
@@ -30,29 +33,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
   }
 
   async validate(payload: auth0payload) {
-    console.log(payload);
-    const user = await this.usersRepository.findUser(payload.email);
-    if (!user) {
-      const newUser = await this.usersRepository.addUser(payload.email);
-      console.log('new user created: ', newUser);
-      if (newUser.paymentNeeded) {
-        throw new ForbiddenException('Payment needed.');
-      }
-    }
-    //console.log('user already existing: ', user);
-    //check the payment due date
-    if (false) {
-      //set paymentNeeded to true
-      const userFound = await this.usersRepository.setPaymentNeeded(
-        payload.email,
-        true,
-      );
-      console.log(userFound);
-      throw new ForbiddenException('Payment needed.');
-    }
-    if (user.paymentNeeded) {
-      throw new ForbiddenException('Payment needed.');
-    }
+    console.log('auth0payload strategy');
     return payload;
   }
 }

@@ -38,6 +38,11 @@ export class PaymentService {
       success_url: 'http://localhost:3002/buy/success',
       cancel_url: 'http://localhost:3002/buy/failure',
     });
+    /*if(session.success_url){
+
+      change the user state, redirect him to dashboard
+    }
+    */
     return session;
   }
 }

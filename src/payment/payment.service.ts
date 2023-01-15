@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { UsersRepository } from 'src/db/repositories/users.repository';
 import Stripe from 'stripe';
 
 @Injectable()
 export class PaymentService {
   private stripe: Stripe;
 
-  constructor() {
+  constructor(private usersRepository: UsersRepository) {
     this.stripe = new Stripe(`${process.env.STRIPE_API_KEY}`, {
       apiVersion: '2022-11-15',
     });
@@ -38,11 +39,11 @@ export class PaymentService {
       success_url: 'http://localhost:3002/buy/success',
       cancel_url: 'http://localhost:3002/buy/failure',
     });
-    /*if(session.success_url){
-
-      change the user state, redirect him to dashboard
+    console.log(session);
+    if (session.success_url == 'http://localhost:3002/buy/success') {
+      console.log('dupa dupa dupa');
     }
-    */
+
     return session;
   }
 }

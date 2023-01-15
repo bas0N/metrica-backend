@@ -21,6 +21,7 @@ import { PaymentModule } from './payment/payment.module';
     ConfigModule.forRoot({ isGlobal: true }),
     RecruitmentModule,
 
+    UsersModule,
     AuthModule,
     MongooseModule.forRoot(`${process.env.MONGO_DB_CONNECTION_STRING}`),
     SurveyModule,
@@ -28,8 +29,8 @@ import { PaymentModule } from './payment/payment.module';
     PaymentModule,
   ],
   //only AppController and AppService can be here
-  //causing errors!!
-  controllers: [AppController, PaymentController],
-  providers: [AppService, PaymentService],
+  //causes errors!!
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

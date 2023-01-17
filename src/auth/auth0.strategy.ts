@@ -41,7 +41,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     }
     //console.log('user already existing: ', user);
     //check the payment due date
-    if (false) {
+    if (user.nextPayment < new Date()) {
       //set paymentNeeded to true
       const userFound = await this.usersRepository.setPaymentNeeded(
         payload.email,

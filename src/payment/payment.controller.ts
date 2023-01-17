@@ -23,8 +23,12 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  async createCharge(@Body() { productId }: { productId: string }) {
-    const paymentDetails = await this.paymentService.charge(productId);
+  @UseGuards(AuthGuard('auth0payment'))
+  async createCharge(
+    @GetUser() email,
+    @Body() { productId }: { productId: string },
+  ) {
+    const paymentDetails = await this.paymentService.charge(productId, email);
     return paymentDetails;
   }
   @Get('/get-all-products')

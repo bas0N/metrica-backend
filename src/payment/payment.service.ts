@@ -20,7 +20,7 @@ export class PaymentService {
   // public async getAllSubscriptions() {
   //   const subscriptionItems = await this.stripe.subscriptionItems.list({});
   // }
-  public async charge(productId: string) {
+  public async charge(productId: string, customer_email: string) {
     // return this.stripe.paymentIntents.create({
     //   amount,
     //   customer: process.env.CUSTOMER_ID,
@@ -35,15 +35,16 @@ export class PaymentService {
           quantity: 1,
         },
       ],
+      customer_email,
       mode: 'payment',
       success_url: 'http://localhost:3002/buy/success',
       cancel_url: 'http://localhost:3002/buy/failure',
     });
-    console.log(session);
-    if (session.success_url == 'http://localhost:3002/buy/success') {
-      console.log('dupa dupa dupa');
-    }
 
+    //TODO
+    //set last payment
+    //set next payment
+    await this.usersRepository.setPaymentNeeded(session.customer_email, false);
     return session;
   }
 }

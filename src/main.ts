@@ -8,6 +8,7 @@ async function bootstrap() {
       process.env.FRONTEND_URL,
       'http://localhost:3002',
       'http://localhost:3000',
+      'http://localhost:3001',
     ],
     credentials: true,
   });

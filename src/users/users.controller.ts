@@ -8,7 +8,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(AuthGuard('auth0payment'))
-  @Get('/check-if-payment-needed')
+  @Get('/check-if-payment-config-needed')
   async checkIfPaymentNeeded(@GetUser() email) {
     return await this.usersService.checkIfPaymentNeeded(email);
   }

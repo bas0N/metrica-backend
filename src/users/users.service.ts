@@ -17,18 +17,41 @@ export class UsersService {
     return this.usersRepository.addUser(email);
   }
   public async checkIfPaymentNeeded(email: string) {
-    const user = await this.usersRepository.findUser(email);
-    if (user.nextPayment < new Date()) {
-      //set paymentNeeded to true
-      const userFound = await this.usersRepository.setPaymentNeeded(
-        email,
-        true,
-      );
-      return { paymentNeeded: true };
+    try {
+      const user = await this.usersRepository.findUser(email);
+      console.log('checkpayment user: ', user);
+      if (!user) {
+        return { paymentNeeded: true, configNeeded: true };
+      }
+      if (user.companyName.length == 0) {
+        if (user.nextPayment < new Date()) {
+          //set paymentNeeded to true
+          const userFound = await this.usersRepository.setPaymentNeeded(
+            email,
+            true,
+          );
+          return { paymentNeeded: true, configNeeded: true };
+        }
+        if (user.paymentNeeded) {
+          return { paymentNeeded: true, configNeeded: true };
+        }
+        return { paymentNeeded: false, configNeeded: true };
+      } else {
+        if (user.nextPayment < new Date()) {
+          //set paymentNeeded to true
+          const userFound = await this.usersRepository.setPaymentNeeded(
+            email,
+            true,
+          );
+          return { paymentNeeded: true, configNeeded: false };
+        }
+        if (user.paymentNeeded) {
+          return { paymentNeeded: true, configNeeded: false };
+        }
+        return { paymentNeeded: false, configNeeded: false };
+      }
+    } catch (e) {
+      console.log(e);
     }
-    if (user.paymentNeeded) {
-      return { paymentNeeded: true };
-    }
-    return { paymentNeeded: false };
   }
 }

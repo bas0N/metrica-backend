@@ -23,10 +23,28 @@ export class UsersRepository {
     return user;
   }
   async setPaymentNeeded(email: string, paymentNeeded: boolean): Promise<User> {
-    const user = await this.userModel.findOneAndUpdate(
-      { email },
-      { paymentNeeded },
-    );
-    return user;
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        { email },
+        { paymentNeeded },
+      );
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async setPaymentDate(email: string): Promise<User> {
+    try {
+      const nextPayment = new Date();
+      nextPayment.setDate(nextPayment.getDate() + 30);
+      console.log(nextPayment);
+      const user = await this.userModel.findOneAndUpdate(
+        { email },
+        { lastPayment: new Date(), nextPayment },
+      );
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

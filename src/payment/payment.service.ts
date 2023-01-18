@@ -37,14 +37,19 @@ export class PaymentService {
       ],
       customer_email,
       mode: 'payment',
-      success_url: 'http://localhost:3002/buy/success',
-      cancel_url: 'http://localhost:3002/buy/failure',
+      success_url: 'http://localhost:3002/dashboard',
+      cancel_url: 'http://localhost:3002/dashboard',
     });
 
     //TODO
-    //set last payment
-    //set next payment
-    await this.usersRepository.setPaymentNeeded(session.customer_email, false);
+
+    await this.usersRepository.setPaymentDate(session.customer_email);
+    const user = await this.usersRepository.setPaymentNeeded(
+      session.customer_email,
+      false,
+    );
+    console.log(session.customer_email);
+    console.log('user after payment: ', user);
     return session;
   }
 }

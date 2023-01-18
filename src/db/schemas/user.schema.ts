@@ -18,6 +18,10 @@ export class User {
   lastPayment: Date;
   @Prop({ default: new Date(0), required: false })
   nextPayment: Date;
+  @Prop({ default: '', required: false })
+  companyName: string;
+  @Prop({ default: '', required: false })
+  logoUrl: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

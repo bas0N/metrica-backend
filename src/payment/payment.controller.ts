@@ -35,4 +35,8 @@ export class PaymentController {
   async getAllProducts() {
     return await this.paymentService.getAllProducts();
   }
+  @Get('/serve-event')
+  async serveEvent(@Body() body: any) {
+    return await this.paymentService.serveEvent(body);
+  }
 }

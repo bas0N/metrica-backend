@@ -5,11 +5,16 @@ import {
 } from '@nestjs/common';
 import { ResponseDto } from 'src/config/response.dto';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
-import { SurveyStatus } from 'src/db/schemas/survey.schema';
+import {
+  Survey,
+  SurveyDocument,
+  SurveyStatus,
+} from 'src/db/schemas/survey.schema';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
 import { FillSurveyDto } from './dto/FillSurvey.dto';
-
+import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 @Injectable()
 export class SurveyService {
   constructor(private surveyRepository: SurveyRepository) {}
@@ -36,7 +41,7 @@ export class SurveyService {
 
   async createSurvey(email: string, addSurveyDto: AddSurveyDto): Promise<any> {
     console.log(addSurveyDto);
-    const survey = await this.surveyRepository.createSurvey(
+    const survey: SurveyDocument = await this.surveyRepository.createSurvey(
       email,
       addSurveyDto,
     );
@@ -44,7 +49,26 @@ export class SurveyService {
     console.log(
       `http://localhost:3002/form/start-form/${survey?._id.toString()}`,
     );
-    console.log(survey);
+    const msg = {
+      to: survey.creatorEmail, // Change to your recipient
+      from: 'conor.murphy.irl@gmail.com', // Change to your verified sender
+      subject: 'Fill out your Tech CV survey with Metrica!',
+      templateId: 'd-000064eb0b504d899fe4c9d0fd9cd2a1',
+      dynamic_template_data: {
+        surveyUrl: `http://localhost:3002/form/start-form/${survey?._id.toString()}`,
+        recipentName: survey.candidateFirstName,
+      },
+      //   text: 'and easy to do anywhere, even with Node.js',
+      //   html: `<strong>and easy to do anywhere, even with Node.js http://localhost:3002/form/start-form/${survey?._id.toString()}</strong>`,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     return survey;
   }
   async getSurveys(email: string) {

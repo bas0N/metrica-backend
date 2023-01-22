@@ -11,6 +11,10 @@ export class PaymentService {
       apiVersion: '2022-11-15',
     });
   }
+  public async serveEvent(body: any) {
+    console.log(body);
+    return;
+  }
 
   public async getAllProducts() {
     const products = await this.stripe.products.list();

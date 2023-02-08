@@ -8,6 +8,9 @@ import { User } from 'src/db/schemas/user.schema';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
+  async setCompanyName(email: string, companyName: string) {
+    return this.usersRepository.setCompanyName(email, companyName);
+  }
   //find user to get payment data
   async findUser(email: string): Promise<User | undefined> {
     return this.usersRepository.findUser(email);
@@ -21,6 +24,7 @@ export class UsersService {
       const user = await this.usersRepository.findUser(email);
       console.log('checkpayment user: ', user);
       if (!user) {
+        this.addUser(email);
         return { paymentNeeded: true, configNeeded: true };
       }
       if (user.companyName.length == 0) {

@@ -14,6 +14,17 @@ import { UserDocument, User, SavedUser } from '../schemas/user.schema';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
+  async setCompanyName(email: string, companyName: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        { email },
+        { companyName },
+      );
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
   async addUser(email: string): Promise<User> {
     const newUser = new this.userModel({ email });
     return newUser.save();

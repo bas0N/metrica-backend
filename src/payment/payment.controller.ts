@@ -15,6 +15,7 @@ import CreateChargeDto from './createcharge.dto';
 import { PaymentService } from './payment.service';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(
   'sk_test_51MN42aGl8yFTD812zjpm8QETb3bmAFbINDbXyxkE9N9lxe35CQt0YQFUeCRQpUt6fYHFiw4qOopnfEnYrDjek07w00DKzQtvNL',
 );

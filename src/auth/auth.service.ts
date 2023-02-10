@@ -3,7 +3,6 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersRepository } from '../db/repositories/users.repository';
 
-import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -21,14 +20,14 @@ export class AuthService {
   //   return null;
   // }
 
-  async login(user: LoginDto): Promise<any> {
-    const payload = { email: user.email };
-    console.log('secret', process.env.JWT_SECRET);
-    const access_token = this.jwtService.sign(payload);
-    console.log('access token', access_token);
-    console.log('payload', JSON.stringify(payload));
-    return { access_token };
-  }
+  // async login(user: LoginDto): Promise<any> {
+  //   const payload = { email: user.email };
+  //   console.log('secret', process.env.JWT_SECRET);
+  //   const access_token = this.jwtService.sign(payload);
+  //   console.log('access token', access_token);
+  //   console.log('payload', JSON.stringify(payload));
+  //   return { access_token };
+  // }
   // async register({ email, password }: AddUserDto): Promise<User> {
   //   const salt = bcryptjs.genSaltSync(10);
   //   const hashedPassword: string = await bcryptjs.hashSync(password, salt);

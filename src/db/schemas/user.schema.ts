@@ -10,6 +10,12 @@ export interface SavedUser extends Document {
 export class User {
   @Prop()
   email: string;
+  @Prop({ default: '', required: false })
+  Name: string;
+  @Prop({ default: '', required: false })
+  choosenPlan: string;
+  @Prop({ default: '', required: false })
+  avatarUrl: string;
   @Prop({ default: new Date(), required: false })
   createdDate: Date;
   @Prop({ default: true })

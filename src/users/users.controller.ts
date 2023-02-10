@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { SetCompanyName } from './dto/SetCompanyName.dto';
@@ -10,8 +10,9 @@ export class UsersController {
 
   @UseGuards(AuthGuard('auth0payment'))
   @Get('/check-if-payment-config-needed')
-  async checkIfPaymentNeeded(@GetUser() email) {
-    return await this.usersService.checkIfPaymentNeeded(email);
+  async checkIfPaymentNeeded(@GetUser() email, @Req() request: any) {
+    const bearerToken = request.headers.authorization.split(' ')[1];
+    return await this.usersService.checkIfPaymentNeeded(email, bearerToken);
   }
   @UseGuards(AuthGuard('auth0'))
   @Post('/set-company-name')
@@ -20,5 +21,10 @@ export class UsersController {
     @Body() { companyName }: SetCompanyName,
   ) {
     return await this.usersService.setCompanyName(email, companyName);
+  }
+  @UseGuards(AuthGuard('auth0'))
+  @Get('/me')
+  async getMe(@GetUser() email) {
+    return await this.usersService.getMe(email);
   }
 }

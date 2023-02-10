@@ -25,8 +25,23 @@ export class UsersRepository {
       console.log(e);
     }
   }
-  async addUser(email: string): Promise<User> {
-    const newUser = new this.userModel({ email });
+  async addUser(email: string, bearerToken: string): Promise<User | null> {
+    // const user = await this.userModel.findOne({ email });
+    // console.log(user);
+    // if (!user) {
+    // const response = await fetch('https://stack-met.eu.auth0.com/userinfo', {
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: `Bearer ${bearerToken}`,
+    //   },
+    // });
+
+    // const useros = await response.json();
+    const newUser = new this.userModel({
+      email,
+      // Name: useros.name,
+      // avatarUrl: useros.picture,
+    });
     return newUser.save();
   }
   async findUser(email: string): Promise<User> {
@@ -44,14 +59,14 @@ export class UsersRepository {
       console.log(e);
     }
   }
-  async setPaymentDate(email: string): Promise<User> {
+  async setPaymentDate(email: string, chosenPlan: string): Promise<User> {
     try {
       const nextPayment = new Date();
       nextPayment.setDate(nextPayment.getDate() + 30);
       console.log(nextPayment);
       const user = await this.userModel.findOneAndUpdate(
         { email },
-        { lastPayment: new Date(), nextPayment },
+        { chosenPlan, lastPayment: new Date(), nextPayment },
       );
       return user;
     } catch (e) {

@@ -15,6 +15,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     private surveysRepository: SurveyRepository,
   ) {
     super({
+      passReqToCallback: true,
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
         rateLimit: true,
@@ -29,16 +30,33 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
     });
   }
 
-  async validate(payload: auth0payload) {
-    console.log(payload);
+  async validate(req: any, payload: auth0payload) {
+    const bearerToken = req.headers.authorization.slice(' ')[1];
     const user = await this.usersRepository.findUser(payload.email);
     if (!user) {
-      const newUser = await this.usersRepository.addUser(payload.email);
+      console.log('add user in validate');
+      const newUser = await this.usersRepository.addUser(
+        payload.email,
+        bearerToken,
+      );
       console.log('new user created: ', newUser);
       if (newUser.paymentNeeded) {
         throw new ForbiddenException('Payment needed.');
       }
     }
+    // console.log(payload);
+    // if (payload.sub.split('|')[0] != 'auth0') {
+    //   const response = await fetch('https://stack-met.eu.auth0.com/userinfo', {
+    //     method: 'GET',
+    //     headers: {
+    //       Authorization: `Bearer ${bearerToken}`,
+    //     },
+    //   });
+    //   const useros = await response.json();
+    //   console.log('useros');
+    //   //add user info
+    // }
+
     //console.log('user already existing: ', user);
     //check the payment due date
     if (user.nextPayment < new Date()) {

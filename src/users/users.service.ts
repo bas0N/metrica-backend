@@ -8,6 +8,9 @@ import { User } from 'src/db/schemas/user.schema';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
+  async getMe(email: string) {
+    return this.findUser(email);
+  }
   async setCompanyName(email: string, companyName: string) {
     return this.usersRepository.setCompanyName(email, companyName);
   }
@@ -16,15 +19,16 @@ export class UsersService {
     return this.usersRepository.findUser(email);
   }
   //add user if it has not yet been saved
-  async addUser(email: string): Promise<User | undefined> {
-    return this.usersRepository.addUser(email);
+  async addUser(email: string, bearerToken: string): Promise<User | undefined> {
+    return this.usersRepository.addUser(email, bearerToken);
   }
-  public async checkIfPaymentNeeded(email: string) {
+  public async checkIfPaymentNeeded(email: string, bearerToken: string) {
     try {
       const user = await this.usersRepository.findUser(email);
       console.log('checkpayment user: ', user);
       if (!user) {
-        this.addUser(email);
+        console.log('user added in checkIfPaymentNeeded');
+        this.addUser(email, bearerToken);
         return { paymentNeeded: true, configNeeded: true };
       }
       if (user.companyName.length == 0) {

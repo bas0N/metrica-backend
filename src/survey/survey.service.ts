@@ -1,15 +1,7 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ResponseDto } from 'src/config/response.dto';
 import { SurveyRepository } from 'src/db/repositories/survey.repository';
-import {
-  Survey,
-  SurveyDocument,
-  SurveyStatus,
-} from 'src/db/schemas/survey.schema';
+import { SurveyDocument, SurveyStatus } from 'src/db/schemas/survey.schema';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
 import { FillSurveyDto } from './dto/FillSurvey.dto';
@@ -128,7 +120,6 @@ export class SurveyService {
     }
     return survey;
   }
-  async editSurvey() {}
   async deleteSurvey(id: string) {
     const survey = await this.surveyRepository.deleteSurvey(id);
     if (!survey) {

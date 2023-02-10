@@ -9,10 +9,8 @@ import {
   Post,
   Put,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { Request } from 'express';
 
 import { AuthGuard } from '@nestjs/passport';
 import { String } from 'aws-sdk/clients/acm';
@@ -82,7 +80,7 @@ export class SurveyController {
       email,
       searchSurveysDto,
     }: {
-      email: String;
+      email: string;
       searchSurveysDto: SearchSurveysDto;
     },
   ) {
@@ -93,11 +91,11 @@ export class SurveyController {
     }
   }
   //edit survey
-  @UseGuards(AuthGuard('jwt'))
-  @Post('editSurvey')
-  editSurvey() {
-    return this.surveyService.editSurvey();
-  }
+  // @UseGuards(AuthGuard('jwt'))
+  // @Post('editSurvey')
+  // editSurvey() {
+  //   return this.surveyService.editSurvey();
+  // }
   //delete survey
   //@UseGuards(AuthGuard('jwt'))
   @Delete('/:surveyId')

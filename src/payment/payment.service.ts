@@ -47,7 +47,10 @@ export class PaymentService {
 
     //TODO
 
-    await this.usersRepository.setPaymentDate(session.customer_email);
+    await this.usersRepository.setPaymentDate(
+      session.customer_email,
+      'Starter',
+    );
     const user = await this.usersRepository.setPaymentNeeded(
       session.customer_email,
       false,

@@ -1,11 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
-import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import * as AWS from 'aws-sdk';
 import { UsersRepository } from '../db/repositories/users.repository';
-import { v4 as uuid } from 'uuid';
-import { User } from 'src/db/schemas/user.schema';
+
 import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
@@ -48,5 +45,4 @@ export class AuthService {
   //     );
   //   }
   // }
-  async dynamoCheck() {}
 }

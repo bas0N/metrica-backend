@@ -13,7 +13,6 @@ import {
 import { GetUser } from 'src/auth/get-user.decorator';
 
 import { AuthGuard } from '@nestjs/passport';
-import { String } from 'aws-sdk/clients/acm';
 import { AddSurveyDto } from './dto/AddSurvey.dto';
 import { ChangeStateDto } from './dto/ChangeState.dto';
 import { FillSurveyDto } from './dto/FillSurvey.dto';

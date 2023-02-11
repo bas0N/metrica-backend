@@ -1,14 +1,7 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import AWS from 'aws-sdk';
 import { Model } from 'mongoose';
-import { async, NotFoundError } from 'rxjs';
-import { v4 as uuid } from 'uuid';
-import { UserDocument, User, SavedUser } from '../schemas/user.schema';
+import { UserDocument, User } from '../schemas/user.schema';
 
 @Injectable()
 export class UsersRepository {

@@ -11,8 +11,6 @@ import {
   Recruitment,
   RecruitmentDocument,
 } from '../schemas/recrutiment.schema';
-import { User, UserDocument } from '../schemas/user.schema';
-import { UsersRepository } from './users.repository';
 @Injectable()
 export class RecruitmentRepository {
   constructor(

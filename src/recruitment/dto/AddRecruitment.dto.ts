@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { SurveyType } from 'src/db/schemas/recrutiment.schema';
 export class AddRecruitmentDto {
   @IsNotEmpty()

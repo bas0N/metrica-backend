@@ -11,6 +11,7 @@ async function bootstrap() {
             'http://localhost:3000',
             'http://localhost:3001',
             'https://metrica-app.vercel.app',
+            'https://https://metrica-landing.vercel.app/',
         ],
         credentials: true,
     });

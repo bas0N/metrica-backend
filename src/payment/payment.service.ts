@@ -41,8 +41,8 @@ export class PaymentService {
       ],
       customer_email,
       mode: 'payment',
-      success_url: 'http://localhost:3002/dashboard',
-      cancel_url: 'http://localhost:3002/dashboard',
+      success_url: process.env.FRONTEND_URL,
+      cancel_url: process.env.FRONTEND_URL,
     });
 
     //TODO

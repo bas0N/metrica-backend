@@ -1,11 +1,6 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
-import paginate from 'mongoose-paginate-v2';
+import { Model } from 'mongoose';
 
 import { AddSurveyDto } from 'src/survey/dto/AddSurvey.dto';
 import { ChangeStateDto } from 'src/survey/dto/ChangeState.dto';

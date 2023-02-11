@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { SurveyType } from 'src/db/schemas/recrutiment.schema';
 import { AddRecruitmentDto } from './dto/AddRecruitment.dto';
 import { EditRecruitmentDto } from './dto/EditRecruitment.dto';
 import { RecruitmentService } from './recruitment.service';

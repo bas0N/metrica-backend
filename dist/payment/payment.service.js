@@ -48,6 +48,7 @@ let PaymentService = class PaymentService {
         const user = await this.usersRepository.setPaymentNeeded(session.customer_email, false);
         console.log(session.customer_email);
         console.log('user after payment: ', user);
+        console.log(session);
         return session;
     }
 };

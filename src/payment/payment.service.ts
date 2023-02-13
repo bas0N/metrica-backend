@@ -57,6 +57,7 @@ export class PaymentService {
     );
     console.log(session.customer_email);
     console.log('user after payment: ', user);
+    console.log(session);
     return session;
   }
 }

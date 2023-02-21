@@ -1,7 +1,52 @@
 
 # Stack Metrics (backend)
 
-A brief description of what this project does and who it's for
+
+## Installation
+
+To set up the  application, follow these steps:
+
+1. Clone the repository to your local machine using git clone https://github.com/bas0N/metrica-backend.git
+2. Navigate to the project directory using cd metrica-backend
+3. Install the required dependencies using 
+```bash
+$ npm install
+```
+4. Set up a MongoDB instance and create a new database. Then, add the connection string to the .env file using the `MONGO_DB_CONNECTION_STRING` variable.
+5. Set up an Auth0 account and configure the tenant's settings. Add the `AUTH0_ISSUER_URL` and `AUTH0_AUDIENCE` variables to the .env file.
+6.Set up a Stripe account and create an API key. Add the `STRIPE_API_KEY`, `STRIPE_CURRENCY`, `FRONTEND_URL`, and `CUSTOMER_ID` variables to the .env file.
+7. Set up a SendGrid account and create an API key. Add the `SENDGRID_API_KEY` variable to the .env file.
+8. Run the application using npm start.
+<br/>
+After following these steps, the  application will be up and running on your local machine, ready to be used.
+
+
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
 
 
 ## Features
@@ -133,52 +178,9 @@ A brief description of what this project does and who it's for
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-To set up the  application, follow these steps:
-
-1. Clone the repository to your local machine using git clone https://github.com/bas0N/metrica-backend.git
-2. Navigate to the project directory using cd metrica-backend
-3. Install the required dependencies using npm install
-4. Set up a MongoDB instance and create a new database. Then, add the connection string to the .env file using the MONGO_DB_CONNECTION_STRING variable.
-5. Set up an Auth0 account and configure the tenant's settings. Add the `AUTH0_ISSUER_URL` and `AUTH0_AUDIENCE` variables to the .env file.
-6.Set up a Stripe account and create an API key. Add the STRIPE_API_KEY, STRIPE_CURRENCY, `FRONTEND_URL`, and `CUSTOMER_ID` variables to the .env file.
-7. Set up a SendGrid account and create an API key. Add the SENDGRID_API_KEY variable to the .env file.
-8. Run the application using npm start.
-<br/>
-After following these steps, the  application will be up and running on your local machine, ready to be used.
-
-
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Support
 
